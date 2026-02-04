@@ -14,6 +14,17 @@
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
   }
+  
+  /* Ensure smooth scrolling on mobile */
+  @media (max-width: 768px) {
+    html {
+      scroll-padding-top: 80px;
+    }
+    
+    section {
+      scroll-snap-align: start;
+    }
+  }
 
   html {
     scroll-behavior: smooth;
@@ -52,6 +63,54 @@
   
   .orbit-animation {
     animation: orbit 20s linear infinite;
+  }
+  
+  /* Mobile touch improvements */
+  @media (max-width: 768px) {
+    .hover\:scale-105:hover,
+    .hover\:scale-110:hover,
+    .hover\:scale-125:hover {
+      transform: scale(1);
+    }
+    
+    .hover\:scale-105:active {
+      transform: scale(0.98);
+    }
+    
+    .hover\:scale-110:active {
+      transform: scale(0.98);
+    }
+    
+    .hover\:scale-125:active {
+      transform: scale(0.98);
+    }
+    
+    /* Improve tap targets on mobile */
+    button,
+    a {
+      -webkit-tap-highlight-color: rgba(255, 107, 107, 0.2);
+    }
+  }
+  
+  /* Responsive text utilities */
+  .text-responsive-xs {
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+  }
+  
+  .text-responsive-sm {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+  }
+  
+  .text-responsive-base {
+    font-size: clamp(1rem, 3vw, 1.125rem);
+  }
+  
+  .text-responsive-lg {
+    font-size: clamp(1.125rem, 3.5vw, 1.25rem);
+  }
+  
+  .text-responsive-xl {
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
   }
 }
 
