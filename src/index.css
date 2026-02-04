@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply m-0 p-0 box-border;
+  }
+
+  body {
+    @apply bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] text-white overflow-x-hidden;
+    font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  code {
+    font-family: 'Fira Code', 'Courier New', monospace;
+  }
+
+  a {
+    @apply no-underline;
+    color: inherit;
+  }
+
+  button {
+    font-family: inherit;
+  }
+
+  img {
+    @apply max-w-full h-auto block;
+  }
+
+  #root {
+    @apply min-h-screen w-full;
+  }
+
+  ul {
+    @apply list-none;
+  }
+}
+
+@layer utilities {
+  .animate-float-continuous {
+    animation: floatContinuous 6s ease-in-out infinite;
+  }
+  
+  .orbit-animation {
+    animation: orbit 20s linear infinite;
+  }
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);
+  }
+}
+
+@keyframes floatContinuous {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-25px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-15px) rotate(-2deg);
+  }
+}
