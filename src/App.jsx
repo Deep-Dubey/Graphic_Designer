@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import profileImage from './asset/image.jpeg'
-import resumePDF from './asset/Prerana_Dipak_Resuma.pdf'
+import resumePDF from './asset/Prerana_Dipak_Resume.pdf'
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
