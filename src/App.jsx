@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import profileImage from './asset/image.jpeg'
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
@@ -111,7 +112,7 @@ function App() {
             <div className="flex items-center gap-3 md:gap-4 group">
               <div className="h-12 w-12 md:h-14 md:w-14 rounded-2xl overflow-hidden border-3 border-transparent bg-gradient-to-br from-primary via-accent to-secondary p-[3px] shadow-xl shadow-primary/50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-2xl group-hover:shadow-accent/70">
                 <div className="h-full w-full rounded-2xl overflow-hidden bg-gradient-to-br from-dark to-[#0f3460]">
-                  <img src="shared_image.jpg" alt="Prerana Dipak" className="w-full h-full object-cover" />
+                  <img src={profileImage} alt="Prerana Dipak" className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="hidden sm:block">
@@ -329,7 +330,7 @@ function App() {
               <div className="absolute inset-[-20px] rounded-full bg-[conic-gradient(from_0deg,transparent,rgba(102,126,234,0.6),rgba(245,87,108,0.6),rgba(0,242,254,0.6),rgba(67,233,123,0.6),transparent)] animate-rotate-glow blur-[20px]"></div>
               <div className="absolute inset-[-5px] rounded-full bg-gradient-to-r from-primary via-secondary to-accent opacity-40 blur-[15px] animate-pulse-glow"></div>
               <div className="relative w-full h-full rounded-full overflow-hidden shadow-[0_20px_60px_rgba(102,126,234,0.3)] animate-float-image">
-                <img src="shared_image.jpg" alt="Prerana Dipak - Graphic Designer" className="w-full h-full object-cover transition-transform duration-400 hover:scale-110" onError={(e) => e.target.style.display = 'none'} />
+                <img src={profileImage} alt="Prerana Dipak - Graphic Designer" className="w-full h-full object-cover transition-transform duration-400 hover:scale-110" onError={(e) => e.target.style.display = 'none'} />
               </div>
             </div>
             <div className="space-y-4 md:space-y-6 text-sm sm:text-base md:text-lg text-white/80">
