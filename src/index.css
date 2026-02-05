@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] text-white overflow-x-hidden;
+    @apply bg-gradient-to-br from-[#020617] via-[#0a0e27] to-[#020617] text-white overflow-x-hidden;
     font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

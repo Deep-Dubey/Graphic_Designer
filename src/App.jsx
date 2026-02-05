@@ -106,13 +106,13 @@ function App() {
   return (
     <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/5 border-b border-white/10 shadow-2xl shadow-purple-500/10">
+      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/5 border-b border-white/10 shadow-2xl shadow-sky-500/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20 md:h-24">
             {/* Logo with Name */}
             <div className="flex items-center gap-3 md:gap-4 group">
               <div className="h-12 w-12 md:h-14 md:w-14 rounded-2xl overflow-hidden border-3 border-transparent bg-gradient-to-br from-primary via-accent to-secondary p-[3px] shadow-xl shadow-primary/50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-2xl group-hover:shadow-accent/70">
-                <div className="h-full w-full rounded-2xl overflow-hidden bg-gradient-to-br from-dark to-[#0f3460]">
+                <div className="h-full w-full rounded-2xl overflow-hidden bg-gradient-to-br from-dark to-[#0c1a2e]">
                   <img src={profileImage} alt="Prerana Dipak" className="w-full h-full object-cover" />
                 </div>
               </div>
@@ -126,7 +126,7 @@ function App() {
 
             {/* Desktop Navigation */}
             <ul className="hidden md:flex items-center gap-1 lg:gap-2 bg-white/5 backdrop-blur-sm rounded-2xl px-2 py-2 border border-white/10">
-              {['home', 'about', 'skills', 'experience', 'projects', 'education', 'contact'].map(section => (
+              {['home', 'about', 'skills', 'experience', 'education', 'projects', 'contact'].map(section => (
                 <li key={section}>
                   <button 
                     onClick={() => scrollToSection(section)}
@@ -184,7 +184,7 @@ function App() {
             : 'max-h-0 opacity-0 overflow-hidden'
         }`}>
           <ul className="px-4 pb-4 space-y-2 bg-dark/95 backdrop-blur-md">
-            {['home', 'about', 'skills', 'experience', 'projects', 'education', 'contact'].map(section => (
+            {['home', 'about', 'skills', 'experience', 'education', 'projects', 'contact'].map(section => (
               <li key={section}>
                 <button 
                   onClick={() => {
@@ -206,7 +206,16 @@ function App() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center pt-20 md:pt-24 pb-8 md:pb-0 px-4 bg-gradient-to-br from-[#0f0f23] via-[#1a0a2e] to-[#0a1628] relative overflow-hidden">
+      <section id="home" className="min-h-screen flex items-center justify-center pt-20 md:pt-24 pb-8 md:pb-0 px-4 bg-gradient-to-br from-[#020617] via-[#0a0e27] to-[#0c1a2e] relative overflow-hidden">
+        {/* Animated Background Circles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '15s, 8s'}}></div>
+          <div className="absolute top-40 right-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '18s, 10s', animationDelay: '1s, 0.5s'}}></div>
+          <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-accent/15 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '20s, 12s', animationDelay: '2s, 1s'}}></div>
+          <div className="absolute top-1/2 right-1/3 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '16s, 9s', animationDelay: '0.5s, 0s'}}></div>
+          <div className="absolute bottom-40 right-10 w-60 h-60 bg-secondary/15 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '17s, 11s', animationDelay: '1.5s, 0.8s'}}></div>
+        </div>
+        
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-40"></div>
         
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-center relative z-10">
@@ -251,7 +260,7 @@ function App() {
 
           <div className="relative h-64 sm:h-80 md:h-96 lg:h-[600px] flex items-center justify-center mt-8 md:mt-0">
             {/* Central Core */}
-            <div className="absolute z-10 w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-primary via-accent to-secondary animate-pulse-glow flex items-center justify-center shadow-[0_0_30px_rgba(255,107,107,0.6)] sm:shadow-[0_0_60px_rgba(255,107,107,0.6)]">
+            <div className="absolute z-10 w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-primary via-accent to-secondary animate-pulse-glow flex items-center justify-center shadow-[0_0_30px_rgba(14,165,233,0.6)] sm:shadow-[0_0_60px_rgba(14,165,233,0.6)]">
               <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-dark flex items-center justify-center">
                 <svg className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
@@ -325,12 +334,13 @@ function App() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0a0a0a] via-[#1a0a2e] to-[#0f0f23] relative overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+      <section id="about" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0a0e27] via-[#020617] to-[#0c1a2e] relative overflow-hidden">
+        {/* Animated Background Circles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '15s, 9s'}}></div>
+          <div className="absolute top-40 right-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '18s, 11s', animationDelay: '2s, 1s'}}></div>
+          <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-accent/15 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '20s, 13s', animationDelay: '4s, 2s'}}></div>
+          <div className="absolute top-1/2 right-1/3 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '16s, 10s', animationDelay: '1s, 0.5s'}}></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -418,12 +428,14 @@ function App() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 lg:py-28 px-4 bg-gradient-to-br from-[#0f0f23] via-[#1a0a2e] to-[#0a0a1a] relative overflow-hidden">
-        {/* Animated grid background */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(102,126,234,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(102,126,234,0.03)_1px,transparent_1px)] bg-[size:50px_50px] animate-grid-flow"></div>
-        
-        {/* Floating orbs */}
-        <div className="absolute top-10 left-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-float"></div>
+      <section id="skills" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 lg:py-28 px-4 bg-gradient-to-br from-[#020617] via-[#0a0e27] to-[#0c1a2e] relative overflow-hidden">
+        {/* Animated Background Circles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-20 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '17s, 10s'}}></div>
+          <div className="absolute bottom-10 right-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '19s, 12s', animationDelay: '3s, 1.5s'}}></div>
+          <div className="absolute top-1/3 left-1/3 w-80 h-80 bg-accent/15 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '21s, 14s', animationDelay: '1.5s, 0.8s'}}></div>
+          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '16s, 8s', animationDelay: '0.5s, 0s'}}></div>
+        </div>
         <div className="absolute bottom-10 right-20 w-80 h-80 bg-accent/5 rounded-full blur-3xl animate-float" style={{animationDelay: '1.5s'}}></div>
 
         <div className="max-w-7xl mx-auto relative z-10 w-full">
@@ -504,11 +516,13 @@ function App() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0a0a0a] via-[#1a0a2e] to-[#0f0f23] relative overflow-hidden">
-        {/* Animated background */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(102,126,234,0.05),transparent_50%)]"></div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+      <section id="experience" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0a0e27] via-[#020617] to-[#0c1a2e] relative overflow-hidden">
+        {/* Animated Background Circles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '18s, 11s'}}></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '20s, 13s', animationDelay: '2.5s, 1.2s'}}></div>
+          <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-accent/15 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '22s, 15s', animationDelay: '1s, 0.5s'}}></div>
+        </div>
 
         <div className="max-w-7xl mx-auto relative z-10 px-4">
           <div className="text-center mb-12 md:mb-16">
@@ -607,11 +621,13 @@ function App() {
       </section>
 
       {/* Education Section */}
-      <section id="education" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0f0f23] via-[#1a0a2e] to-[#0a0a1a] relative overflow-hidden">
-        {/* Animated background */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(245,87,108,0.05),transparent_50%)]"></div>
-        <div className="absolute top-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+      <section id="education" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#020617] via-[#0a0e27] to-[#0c1a2e] relative overflow-hidden">
+        {/* Animated Background Circles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '19s, 12s'}}></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '17s, 10s', animationDelay: '3s, 1.5s'}}></div>
+          <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-accent/15 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '21s, 14s', animationDelay: '1.5s, 0.7s'}}></div>
+        </div>
 
         <div className="max-w-7xl mx-auto relative z-10 px-4">
           <div className="text-center mb-12 md:mb-16">
@@ -713,11 +729,13 @@ function App() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0f0f23] via-[#1a0a2e] to-[#0a0a1a] relative overflow-hidden">
-        {/* Animated mesh gradient background */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(102,126,234,0.1),transparent_50%)]"></div>
-          <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_80%_70%,rgba(245,87,108,0.1),transparent_50%)]"></div>
+      <section id="projects" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#020617] via-[#0a0e27] to-[#0c1a2e] relative overflow-hidden">
+        {/* Animated Background Circles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-1/4 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '16s, 9s'}}></div>
+          <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '20s, 13s', animationDelay: '2s, 1s'}}></div>
+          <div className="absolute top-1/2 right-10 w-72 h-72 bg-accent/15 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '18s, 11s', animationDelay: '1s, 0.5s'}}></div>
+          <div className="absolute bottom-1/3 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '22s, 15s', animationDelay: '3s, 1.5s'}}></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -808,12 +826,13 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0a0a0a] via-[#1a0a2e] to-[#0f0f23] relative overflow-hidden">
-        {/* Animated background effects */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-secondary/5 rounded-full blur-3xl animate-pulse"></div>
+      <section id="contact" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0a0e27] via-[#020617] to-[#0c1a2e] relative overflow-hidden">
+        {/* Animated Background Circles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '17s, 10s'}}></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-secondary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '19s, 12s', animationDelay: '2s, 1s'}}></div>
+          <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-accent/15 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '21s, 14s', animationDelay: '1s, 0.5s'}}></div>
+          <div className="absolute top-10 right-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '18s, 11s', animationDelay: '3s, 1.5s'}}></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -947,7 +966,7 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="py-6 md:py-8 px-4 bg-gradient-to-r from-[#0f0f23] via-[#1a0a2e] to-[#0a1628] border-t border-white/10 backdrop-blur-xl">
+      <footer className="py-6 md:py-8 px-4 bg-gradient-to-r from-[#020617] via-[#0a0e27] to-[#0c1a2e] border-t border-white/10 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto text-center text-white/60">
           <p className="text-xs sm:text-sm md:text-base">&copy; 2026 Prerana Dipak. Crafted with passion and creativity.</p>
         </div>
