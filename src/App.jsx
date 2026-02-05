@@ -1,45 +1,43 @@
 import { useState, useEffect } from 'react'
 import profileImage from './asset/image.jpeg'
 import resumePDF from './asset/Prerana_Dipak_Resume.pdf'
+import LoadingScreen from './components/LoadingScreen'
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true)
   const [activeSection, setActiveSection] = useState('home')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showScrollTop, setShowScrollTop] = useState(false)
 
   useEffect(() => {
-    const observerOptions = {
-      threshold: 0.2,
-      rootMargin: '-100px 0px -50% 0px'
-    }
-
-    const observerCallback = (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id)
-          window.history.replaceState(null, '', `#${entry.target.id}`)
-        }
-      })
-    }
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions)
-    const sections = document.querySelectorAll('section[id]')
-    sections.forEach(section => observer.observe(section))
-
     const handleScroll = () => {
-      const windowHeight = window.innerHeight
-      const documentHeight = document.documentElement.scrollHeight
       const scrollTop = window.scrollY || document.documentElement.scrollTop
       
-      if (windowHeight + scrollTop >= documentHeight - 100) {
-        setActiveSection('contact')
-        window.history.replaceState(null, '', '#contact')
+      // Show scroll to top button after scrolling down 300px
+      setShowScrollTop(scrollTop > 300)
+
+      // Manually detect which section is in view
+      const sections = ['home', 'about', 'skills', 'experience', 'education', 'projects', 'contact']
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i])
+        if (section) {
+          const rect = section.getBoundingClientRect()
+          // Section is considered active if its top is in the upper half of viewport
+          if (rect.top <= window.innerHeight / 3 && rect.bottom >= 0) {
+            setActiveSection(sections[i])
+            break
+          }
+        }
       }
     }
 
-    window.addEventListener('scroll', handleScroll)
+    // Initial check
+    handleScroll()
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      observer.disconnect()
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
@@ -68,6 +66,10 @@ function App() {
       element.scrollIntoView({ behavior: 'smooth' })
       window.history.pushState(null, '', `#${sectionId}`)
     }
+  }
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const skills = {
@@ -102,6 +104,16 @@ function App() {
       tags: ['Packaging', 'Illustrator', 'Print Design']
     }
   ]
+
+  // Handle loading complete
+  const handleLoadingComplete = () => {
+    setIsLoading(false)
+  }
+
+  // Show loading screen
+  if (isLoading) {
+    return <LoadingScreen onLoadingComplete={handleLoadingComplete} />
+  }
 
   return (
     <div className="min-h-screen">
@@ -176,34 +188,57 @@ function App() {
             </button>
           </div>
         </div>
-
-        {/* Mobile Menu Dropdown */}
-        <div className={`md:hidden transition-all duration-300 ease-in-out ${
-          mobileMenuOpen 
-            ? 'max-h-screen opacity-100' 
-            : 'max-h-0 opacity-0 overflow-hidden'
-        }`}>
-          <ul className="px-4 pb-4 space-y-2 bg-dark/95 backdrop-blur-md">
-            {['home', 'about', 'skills', 'experience', 'education', 'projects', 'contact'].map(section => (
-              <li key={section}>
-                <button 
-                  onClick={() => {
-                    scrollToSection(section)
-                    setMobileMenuOpen(false)
-                  }}
-                  className={`w-full text-left px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
-                    activeSection === section 
-                      ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/30' 
-                      : 'text-white/70 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {section.charAt(0).toUpperCase() + section.slice(1)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
       </nav>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        ></div>
+      )}
+
+      {/* Mobile Menu Sidebar (50% from right) */}
+      <div className={`fixed top-0 right-0 h-full w-1/2 bg-gradient-to-br from-dark via-[#0c1a2e] to-dark backdrop-blur-xl border-l border-white/10 shadow-2xl z-50 md:hidden transition-transform duration-300 ease-in-out ${
+        mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+      }`}>
+        {/* Close button */}
+        <div className="flex justify-end p-4">
+          <button 
+            onClick={() => setMobileMenuOpen(false)}
+            className="relative z-50 p-3 rounded-xl bg-gradient-to-r from-white/5 to-white/10 border border-white/10 hover:border-primary/50 active:scale-95 transition-all duration-300"
+            aria-label="Close menu"
+          >
+            <div className="w-6 h-6 relative">
+              <span className="absolute top-1/2 left-0 block h-0.5 w-full bg-gradient-to-r from-primary to-accent rounded-full rotate-45 -translate-y-1/2"></span>
+              <span className="absolute top-1/2 left-0 block h-0.5 w-full bg-gradient-to-r from-secondary to-primary rounded-full -rotate-45 -translate-y-1/2"></span>
+            </div>
+          </button>
+        </div>
+
+        <ul className="px-4 pt-4 space-y-2">
+          {['home', 'about', 'skills', 'experience', 'education', 'projects', 'contact'].map(section => (
+            <li key={section}>
+              <button 
+                onClick={() => {
+                  scrollToSection(section)
+                  setMobileMenuOpen(false)
+                }}
+                className={`w-full text-left px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
+                  activeSection === section 
+                    ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/50 scale-105 font-bold' 
+                    : 'text-white/70 hover:text-white hover:bg-white/5 hover:scale-102'
+                }`}
+              >
+                {activeSection === section && (
+                  <span className="inline-block w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
+                )}
+                {section.charAt(0).toUpperCase() + section.slice(1)}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {/* Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center pt-20 md:pt-24 pb-8 md:pb-0 px-4 bg-gradient-to-br from-[#020617] via-[#0a0e27] to-[#0c1a2e] relative overflow-hidden">
@@ -971,6 +1006,29 @@ function App() {
           <p className="text-xs sm:text-sm md:text-base">&copy; 2026 Prerana Dipak. Crafted with passion and creativity.</p>
         </div>
       </footer>
+
+      {/* Scroll to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-40 p-3 sm:p-4 rounded-full bg-gradient-to-r from-primary to-secondary shadow-lg shadow-primary/50 hover:shadow-xl hover:shadow-primary/70 hover:scale-110 active:scale-95 transition-all duration-300 ${
+          showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+        }`}
+        aria-label="Scroll to top"
+      >
+        <svg 
+          className="w-5 h-5 sm:w-6 sm:h-6 text-white" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2.5} 
+            d="M5 10l7-7m0 0l7 7m-7-7v18" 
+          />
+        </svg>
+      </button>
     </div>
   )
 }
