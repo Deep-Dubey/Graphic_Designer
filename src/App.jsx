@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import profileImage from './asset/image.jpeg'
 import resumePDF from './asset/Prerana_Dipak_Resume.pdf'
 import LoadingScreen from './components/LoadingScreen'
+import MouseTrail from './components/MouseTrail'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
@@ -117,6 +118,7 @@ function App() {
 
   return (
     <div className="min-h-screen">
+      <MouseTrail />
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/5 border-b border-white/10 shadow-2xl shadow-sky-500/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
