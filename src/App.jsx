@@ -2,13 +2,23 @@ import { useState, useEffect } from 'react'
 import profileImage from './asset/image.jpeg'
 import resumePDF from './asset/Prerana_Dipak_Resume.pdf'
 import LoadingScreen from './components/LoadingScreen'
-import MouseTrail from './components/MouseTrail'
+import { SiAdobephotoshop, SiAdobeillustrator, SiAdobeindesign, SiAdobepremierepro, SiAdobeaftereffects, SiFigma, SiCanva, SiAdobexd, SiAdobelightroom, SiSketch } from 'react-icons/si'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [activeSection, setActiveSection] = useState('home')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const [flippedCard, setFlippedCard] = useState(null)
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(0)
+  const [slideDirection, setSlideDirection] = useState('right')
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [currentSkillIndex, setCurrentSkillIndex] = useState(0)
+  const [skillSlideDirection, setSkillSlideDirection] = useState('right')
+  const [isSkillTransitioning, setIsSkillTransitioning] = useState(false)
+  const [currentContactIndex, setCurrentContactIndex] = useState(0)
+  const [contactSlideDirection, setContactSlideDirection] = useState('right')
+  const [isContactTransitioning, setIsContactTransitioning] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,25 +94,33 @@ function App() {
       title: 'Velvet Vines: A Heritage Wine Experience',
       description: 'Premium wine logo and label with minimalist, heritage-inspired aesthetics. Created scalable vector packaging elements for consistent branding.',
       link: 'https://drive.google.com/file/d/1Or4TwJZ8VtIU0EuMNu2DpYyLuGyaIusT/view?usp=sharing',
-      tags: ['Branding', 'Packaging', 'Illustrator']
+      tags: ['Branding', 'Packaging', 'Illustrator'],
+      gradient: 'from-purple-600 via-pink-600 to-red-600',
+      icon: '🍷'
     },
     {
       title: 'Digital Painting',
       description: 'Advanced digital artwork using non-destructive workflows, custom brushes, blending modes, gradient maps, and texture techniques.',
       link: 'https://drive.google.com/file/d/1ahR5mbkC8UTQAR5NrmNCtO6Jpu23IBTo/view?usp=sharing',
-      tags: ['Digital Art', 'Photoshop', 'Illustration']
+      tags: ['Digital Art', 'Photoshop', 'Illustration'],
+      gradient: 'from-blue-600 via-cyan-600 to-teal-600',
+      icon: '🎨'
     },
     {
       title: 'Juice Product Advertisement',
       description: 'Promotional video editing with smooth transitions, color grading, audio integration, and motion effects.',
       link: 'https://drive.google.com/file/d/1SWpd28cdh1aGC3zXCm-tgphZpdyv4GXT/view?usp=sharing',
-      tags: ['Video Editing', 'Premiere Pro', 'Motion Graphics']
+      tags: ['Video Editing', 'Premiere Pro', 'Motion Graphics'],
+      gradient: 'from-orange-600 via-yellow-600 to-amber-600',
+      icon: '🎬'
     },
     {
       title: 'Premium Tea Bag Packaging Design',
       description: 'Print-ready, vector-based packaging with custom illustrations, typography, and structured layouts.',
       link: 'https://drive.google.com/drive/folders/1G_ApfOWVsIPnGOrsUm_Acqtl43Xk0qTe?usp=sharing',
-      tags: ['Packaging', 'Illustrator', 'Print Design']
+      tags: ['Packaging', 'Illustrator', 'Print Design'],
+      gradient: 'from-green-600 via-emerald-600 to-lime-600',
+      icon: '🍵'
     }
   ]
 
@@ -118,8 +136,7 @@ function App() {
 
   return (
     <div className="min-h-screen">
-      <MouseTrail />
-      {/* Navigation */}
+      {/* Navigation */}}
       <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/5 border-b border-white/10 shadow-2xl shadow-sky-500/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20 md:h-24">
@@ -296,53 +313,40 @@ function App() {
           </div>
 
           <div className="relative h-64 sm:h-80 md:h-96 lg:h-[600px] flex items-center justify-center mt-8 md:mt-0">
-            {/* Central Core */}
-            <div className="absolute z-10 w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-primary via-accent to-secondary animate-pulse-glow flex items-center justify-center shadow-[0_0_30px_rgba(14,165,233,0.6)] sm:shadow-[0_0_60px_rgba(14,165,233,0.6)]">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-dark flex items-center justify-center">
-                <svg className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-              </div>
-            </div>
-
-            {/* Orbit Rings */}
-            <div className="absolute w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] md:w-[320px] md:h-[320px] lg:w-[350px] lg:h-[350px] rounded-full border-2 border-white/10 animate-rotate" style={{animationDuration: '30s'}}></div>
-            <div className="absolute w-[160px] h-[160px] sm:w-[220px] sm:h-[220px] md:w-[260px] md:h-[260px] lg:w-[280px] lg:h-[280px] rounded-full border border-white/5 animate-rotate" style={{animationDuration: '25s', animationDirection: 'reverse'}}></div>
 
             {/* Orbiting Skill Icons */}
             {[
-              { name: 'Photoshop', icon: 'Ps', color: '#31A8FF', bgColor: '#001E36' },
-              { name: 'Illustrator', icon: 'Ai', color: '#FF9A00', bgColor: '#330000' },
-              { name: 'InDesign', icon: 'Id', color: '#FF3366', bgColor: '#49021F' },
-              { name: 'Figma', icon: 'F', color: '#F24E1E', bgColor: '#0D0D0D' },
-              { name: 'Premiere Pro', icon: 'Pr', color: '#9999FF', bgColor: '#00005B' },
-              { name: 'After Effects', icon: 'Ae', color: '#9999FF', bgColor: '#00005B' },
-              { name: 'Canva', icon: 'C', color: '#00C4CC', bgColor: '#000000' },
-              { name: 'UI/UX', icon: '✨', color: '#FFD700', bgColor: '#1a1a1a' },
-              { name: 'Branding', icon: '🎨', color: '#FF6B6B', bgColor: '#1a1a1a' },
-              { name: 'Video', icon: '🎬', color: '#4ECDC4', bgColor: '#1a1a1a' },
-              { name: 'Digital Art', icon: '🖌️', color: '#95E1D3', bgColor: '#1a1a1a' },
-              { name: 'AI Tools', icon: '🤖', color: '#A8E6CF', bgColor: '#1a1a1a' },
+              { name: 'Photoshop', Icon: SiAdobephotoshop, type: 'component', color: '#31A8FF', bgColor: '#001E36' },
+              { name: 'Illustrator', Icon: SiAdobeillustrator, type: 'component', color: '#FF9A00', bgColor: '#330000' },
+              { name: 'InDesign', Icon: SiAdobeindesign, type: 'component', color: '#FF3366', bgColor: '#49021F' },
+              { name: 'Figma', Icon: SiFigma, type: 'component', color: '#F24E1E', bgColor: '#0D0D0D' },
+              { name: 'Premiere Pro', Icon: SiAdobepremierepro, type: 'component', color: '#9999FF', bgColor: '#00005B' },
+              { name: 'After Effects', Icon: SiAdobeaftereffects, type: 'component', color: '#9999FF', bgColor: '#00005B' },
+              { name: 'Canva', Icon: SiCanva, type: 'component', color: '#00C4CC', bgColor: '#000000' },
+              { name: 'XD', Icon: SiAdobexd, type: 'component', color: '#FF61F6', bgColor: '#2E001F' },
+              { name: 'Lightroom', Icon: SiAdobelightroom, type: 'component', color: '#31A8FF', bgColor: '#001733' },
+              { name: 'Sketch', Icon: SiSketch, type: 'component', color: '#FDB300', bgColor: '#1F1300' },
             ].map((skill, index) => {
+              const totalIcons = 10;
               const orbitRadius = typeof window !== 'undefined' && window.innerWidth < 480 ? 100 : (window.innerWidth < 640 ? 120 : (window.innerWidth < 768 ? 150 : 175));
               
               return (
                 <div
                   key={index}
-                  className="absolute left-1/2 top-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 -ml-5 -mt-5 sm:-ml-6 sm:-mt-6 md:-ml-7 md:-mt-7 lg:-ml-8 lg:-mt-8"
+                  className="absolute left-1/2 top-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 -ml-5 -mt-5 sm:-ml-6 sm:-mt-6 md:-ml-7 md:-mt-7 lg:-ml-8 lg:-mt-8 icon-orbit-container"
                   style={{
-                    animation: `orbit 20s linear infinite`,
-                    animationDelay: `-${(20 / 12) * index}s`,
+                    animation: `orbit 24s linear infinite`,
+                    animationDelay: `-${(24 / totalIcons) * index}s`,
                     '--orbit-radius': `${orbitRadius}px`,
                   }}
                 >
-                  <div className="group cursor-pointer relative">
-                    {/* Glow Effect */}
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 scale-150" style={{backgroundColor: skill.color}}></div>
+                  <div className="group cursor-pointer relative h-full w-full">
+                    {/* Constant Glow Effect */}
+                    <div className="absolute inset-0 rounded-2xl opacity-50 group-hover:opacity-100 blur-xl transition-opacity duration-500 scale-150" style={{backgroundColor: skill.color}}></div>
                     
                     {/* Adobe-Style Icon Container */}
                     <div 
-                      className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-125 flex items-center justify-center font-bold text-base sm:text-lg md:text-xl lg:text-2xl border-2 border-opacity-30 hover:border-opacity-60"
+                      className="icon-content relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center font-bold text-base sm:text-lg md:text-xl lg:text-2xl border-2 border-opacity-30 hover:border-opacity-60"
                       style={{
                         backgroundColor: skill.bgColor,
                         color: skill.color,
@@ -351,7 +355,13 @@ function App() {
                         fontWeight: '800'
                       }}
                     >
-                      <span className="relative z-10">{skill.icon}</span>
+                      <span className="relative z-10">
+                        {skill.type === 'text' ? (
+                          skill.icon
+                        ) : (
+                          <skill.Icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
+                        )}
+                      </span>
                       {/* Inner gradient overlay */}
                       <div className="absolute inset-0 rounded-2xl opacity-20" style={{background: `radial-gradient(circle at 30% 30%, ${skill.color}, transparent)`}}></div>
                     </div>
@@ -488,6 +498,7 @@ function App() {
             <div className="w-32 h-1.5 bg-gradient-to-r from-primary via-accent to-secondary mx-auto rounded-full"></div>
           </div>
 
+          {/* Skills Grid - All Screens */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {[
               { title: 'Design Tools', icon: '🛠️', items: skills.designTools, gradient: 'from-blue-500/10 via-cyan-500/10 to-blue-500/10', borderColor: 'border-blue-500/20', hoverBorder: 'hover:border-blue-500/60' },
@@ -788,64 +799,187 @@ function App() {
             <div className="w-32 h-1.5 bg-gradient-to-r from-primary via-accent to-secondary mx-auto rounded-full"></div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+          {/* Navigation Arrows */}
+          <div className="relative max-w-2xl mx-auto px-2 sm:px-4">
+            {/* Left Arrow */}
+            <button
+              onClick={() => {
+                if (isTransitioning) return;
+                setIsTransitioning(true);
+                setSlideDirection('left');
+                setFlippedCard(null);
+                setTimeout(() => {
+                  setCurrentProjectIndex((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
+                  setIsTransitioning(false);
+                }, 100);
+              }}
+              disabled={isTransitioning}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 sm:-translate-x-20 md:-translate-x-28 lg:-translate-x-36 z-20 p-2 sm:p-4 md:p-5 rounded-full bg-gradient-to-r from-primary/30 to-accent/30 backdrop-blur-sm border-2 border-primary/50 hover:from-primary/50 hover:to-accent/50 hover:border-primary/80 hover:scale-110 transition-all duration-300 group shadow-xl shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Previous project"
+            >
+              <svg className="w-5 h-5 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+
+            {/* Right Arrow */}
+            <button
+              onClick={() => {
+                if (isTransitioning) return;
+                setIsTransitioning(true);
+                setSlideDirection('right');
+                setFlippedCard(null);
+                setTimeout(() => {
+                  setCurrentProjectIndex((prev) => (prev === projects.length - 1 ? 0 : prev + 1));
+                  setIsTransitioning(false);
+                }, 100);
+              }}
+              disabled={isTransitioning}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 sm:translate-x-20 md:translate-x-28 lg:translate-x-36 z-20 p-2 sm:p-4 md:p-5 rounded-full bg-gradient-to-r from-primary/30 to-accent/30 backdrop-blur-sm border-2 border-primary/50 hover:from-primary/50 hover:to-accent/50 hover:border-primary/80 hover:scale-110 transition-all duration-300 group shadow-xl shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Next project"
+            >
+              <svg className="w-5 h-5 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+
+            {/* Single Project Card */}
             {projects.map((project, index) => (
               <div 
-                key={index} 
-                className="group relative rounded-3xl overflow-hidden transition-all duration-700 hover:scale-105 hover:-translate-y-2 animate-fade-in-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                key={index}
+                className={`flip-card-container h-[500px] sm:h-[480px] md:h-[500px] ${
+                  index === currentProjectIndex 
+                    ? (slideDirection === 'right' ? 'animate-slide-in-right' : 'animate-slide-in-left')
+                    : 'hidden'
+                }`}
+                style={{ perspective: '1000px' }}
+                onClick={() => setFlippedCard(flippedCard === index ? null : index)}
               >
-                {/* Card glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/20 to-secondary/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"></div>
-                
-                {/* Main card */}
-                <div className="relative h-full p-8 rounded-3xl bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 group-hover:border-white/30 transition-all duration-500">
-                  {/* Decorative corner gradient */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className={`flip-card-inner relative w-full h-full transition-transform duration-700 ${
+                  flippedCard === index ? 'rotate-y-180' : ''
+                } group hover:rotate-y-180`} style={{ transformStyle: 'preserve-3d' }}>
                   
-                  {/* Header */}
-                  <div className="flex justify-between items-start mb-6 relative z-10">
-                    <div className="flex-1">
-                      <h3 className="text-xl sm:text-2xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent group-hover:from-primary group-hover:to-accent transition-all duration-500">
-                        {project.title}
-                      </h3>
+                  {/* FRONT OF CARD */}
+                  <div className="flip-card-front absolute w-full h-full rounded-3xl" style={{ backfaceVisibility: 'hidden' }}>
+                    {/* Card glow effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/20 to-secondary/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 rounded-3xl"></div>
+                    
+                    <div className="relative h-full rounded-3xl bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden">
+                      
+                      {/* Project Image/Visual */}
+                      <div className={`relative w-full h-40 sm:h-48 md:h-56 bg-gradient-to-br ${project.gradient} flex items-center justify-center overflow-hidden`}>
+                        {/* Animated gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50"></div>
+                        
+                        {/* Icon */}
+                        <div className="relative z-10 text-5xl sm:text-6xl md:text-7xl transform group-hover:scale-110 transition-transform duration-500">
+                          {project.icon}
+                        </div>
+
+                        {/* Decorative elements */}
+                        <div className="absolute top-4 right-4 w-20 h-20 rounded-full bg-white/10 blur-2xl"></div>
+                        <div className="absolute bottom-4 left-4 w-16 h-16 rounded-full bg-white/10 blur-xl"></div>
+                      </div>
+
+                      {/* Content Section */}
+                      <div className="p-4 sm:p-6 md:p-8 flex flex-col h-[calc(100%-10rem)] sm:h-[calc(100%-12rem)] md:h-[calc(100%-14rem)]">
+                        <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent group-hover:from-primary group-hover:to-accent transition-all duration-500 leading-tight">
+                          {project.title}
+                        </h3>
+
+                        <p className="text-sm sm:text-base text-gray-300 mb-4 leading-relaxed group-hover:text-white transition-colors flex-grow line-clamp-3">
+                          {project.description}
+                        </p>
+
+                        <div className="flex flex-wrap gap-2">
+                          {project.tags.map((tag, i) => (
+                            <span 
+                              key={i} 
+                              className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-white/10 text-xs sm:text-sm font-medium text-gray-300 hover:from-primary/20 hover:to-accent/20 hover:border-primary/30 hover:text-white transition-all duration-300 cursor-default"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Flip hint */}
+                      <div className="absolute bottom-4 right-4 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Click to view link
+                      </div>
+
+                      {/* Bottom accent line */}
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accent to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-b-3xl"></div>
                     </div>
-                    <a 
-                      href={project.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="flex-shrink-0 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-gradient-to-br hover:from-primary/20 hover:to-accent/20 hover:border-primary/50 hover:rotate-45 hover:scale-110 transition-all duration-300 group/link"
-                    >
-                      <svg className="w-5 h-5 text-gray-400 group-hover/link:text-primary transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                        <polyline points="15 3 21 3 21 9"/>
-                        <line x1="10" y1="14" x2="21" y2="3"/>
-                      </svg>
-                    </a>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-gray-300 mb-6 leading-relaxed group-hover:text-white transition-colors">
-                    {project.description}
-                  </p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, i) => (
-                      <span 
-                        key={i} 
-                        className="px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-white/10 text-sm font-medium text-gray-300 hover:from-primary/20 hover:to-accent/20 hover:border-primary/30 hover:text-white hover:scale-110 transition-all duration-300 cursor-default"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                  {/* BACK OF CARD */}
+                  <div className="flip-card-back absolute w-full h-full rounded-3xl rotate-y-180" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                    <div className="relative h-full p-8 rounded-3xl bg-gradient-to-br from-primary/20 via-accent/20 to-secondary/20 backdrop-blur-sm border-2 border-primary/50 flex flex-col items-center justify-center">
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 rounded-3xl"></div>
+                      
+                      <div className="relative z-10 text-center">
+                        <div className="mb-6">
+                          <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/50">
+                            <svg className="w-10 h-10 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                              <polyline points="15 3 21 3 21 9"/>
+                              <line x1="10" y1="14" x2="21" y2="3"/>
+                            </svg>
+                          </div>
+                          <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                            {project.title}
+                          </h3>
+                        </div>
+                        
+                        <a 
+                          href={project.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white font-bold shadow-lg shadow-primary/50 hover:shadow-xl hover:shadow-accent/50 hover:scale-110 transition-all duration-300"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          View Project
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                          </svg>
+                        </a>
+                        
+                        <p className="mt-6 text-sm text-gray-400">
+                          Click again to flip back
+                        </p>
+                      </div>
+                    </div>
                   </div>
-
-                  {/* Bottom accent line */}
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accent to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
               </div>
             ))}
+
+            {/* Project Counter */}
+            <div className="flex justify-center items-center gap-2 mt-8">
+              {projects.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    if (isTransitioning) return;
+                    setIsTransitioning(true);
+                    setSlideDirection(index > currentProjectIndex ? 'right' : 'left');
+                    setFlippedCard(null);
+                    setTimeout(() => {
+                      setCurrentProjectIndex(index);
+                      setIsTransitioning(false);
+                    }, 100);
+                  }}
+                  disabled={isTransitioning}
+                  className={`h-2 rounded-full transition-all duration-300 disabled:cursor-not-allowed ${
+                    index === currentProjectIndex
+                      ? 'w-8 bg-gradient-to-r from-primary to-accent'
+                      : 'w-2 bg-white/30 hover:bg-white/50'
+                  }`}
+                  aria-label={`Go to project ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
 
           {/* View more button */}
@@ -888,8 +1022,146 @@ function App() {
             </p>
           </div>
 
-          {/* Contact cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mb-12">
+          {/* Contact Carousel - Mobile Only */}
+          <div className="md:hidden relative max-w-2xl mx-auto mb-12 px-2 sm:px-4">
+            {/* Left Arrow */}
+            <button
+              onClick={() => {
+                if (isContactTransitioning) return;
+                setIsContactTransitioning(true);
+                setContactSlideDirection('left');
+                setTimeout(() => {
+                  setCurrentContactIndex((prev) => (prev === 0 ? 2 : prev - 1));
+                  setIsContactTransitioning(false);
+                }, 100);
+              }}
+              disabled={isContactTransitioning}
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-gradient-to-r from-primary/40 to-accent/40 backdrop-blur-sm border-2 border-primary/60 hover:from-primary/60 hover:to-accent/60 hover:border-primary/80 hover:scale-110 transition-all duration-300 group shadow-xl shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Previous contact"
+            >
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+
+            {/* Right Arrow */}
+            <button
+              onClick={() => {
+                if (isContactTransitioning) return;
+                setIsContactTransitioning(true);
+                setContactSlideDirection('right');
+                setTimeout(() => {
+                  setCurrentContactIndex((prev) => (prev === 2 ? 0 : prev + 1));
+                  setIsContactTransitioning(false);
+                }, 100);
+              }}
+              disabled={isContactTransitioning}
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-gradient-to-r from-primary/40 to-accent/40 backdrop-blur-sm border-2 border-primary/60 hover:from-primary/60 hover:to-accent/60 hover:border-primary/80 hover:scale-110 transition-all duration-300 group shadow-xl shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Next contact"
+            >
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+
+            {/* Contact Cards - Mobile Carousel */}
+            {[
+              { 
+                icon: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22,6 12,13 2,6', 
+                title: 'Email', 
+                value: 'preranadipak17@gmail.com', 
+                href: 'mailto:preranadipak17@gmail.com', 
+                subtitle: "I'll respond within 24 hours",
+                gradient: 'from-blue-500/10 to-cyan-500/10',
+                iconColor: 'text-blue-400'
+              },
+              { 
+                icon: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z', 
+                title: 'Phone', 
+                value: '+91 7979959056', 
+                href: 'tel:7979959056', 
+                subtitle: 'Mon-Fri, 9AM-6PM IST',
+                gradient: 'from-purple-500/10 to-pink-500/10',
+                iconColor: 'text-purple-400'
+              },
+              { 
+                icon: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z', 
+                title: 'Location', 
+                value: 'Pune, India', 
+                href: null, 
+                subtitle: 'Open for opportunities',
+                gradient: 'from-amber-500/10 to-orange-500/10',
+                iconColor: 'text-amber-400'
+              }
+            ].map((contact, i) => (
+              <div 
+                key={i}
+                className={`${i === currentContactIndex ? (contactSlideDirection === 'right' ? 'animate-slide-in-right' : 'animate-slide-in-left') : 'hidden'}`}
+              >
+              <div 
+                className={`group relative p-8 rounded-3xl bg-gradient-to-br ${contact.gradient} backdrop-blur-sm border border-white/10 hover:border-white/30 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 text-center overflow-hidden`}
+              >
+                {/* Glowing orb on hover */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                <div className="relative z-10">
+                  {/* Icon */}
+                  <div className={`inline-flex p-5 rounded-2xl bg-white/5 border border-white/10 mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 ${contact.iconColor}`}>
+                    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d={contact.icon}/>
+                    </svg>
+                  </div>
+                  
+                  <h4 className="text-xl font-bold mb-3 text-white">{contact.title}</h4>
+                  
+                  {contact.href ? (
+                    <a 
+                      href={contact.href} 
+                      className="block text-base text-gray-300 hover:text-white transition-colors mb-2 break-all font-medium"
+                    >
+                      {contact.value}
+                    </a>
+                  ) : (
+                    <div className="text-base text-gray-300 mb-2 font-medium">{contact.value}</div>
+                  )}
+                  
+                  <p className="text-sm text-gray-500">{contact.subtitle}</p>
+                </div>
+
+                {/* Bottom accent */}
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              </div>
+              </div>
+            ))}
+
+            {/* Dot Indicators - Mobile Only */}
+            <div className="flex justify-center items-center gap-2 mt-8">
+              {[0, 1, 2].map((index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    if (isContactTransitioning) return;
+                    setIsContactTransitioning(true);
+                    setContactSlideDirection(index > currentContactIndex ? 'right' : 'left');
+                    setTimeout(() => {
+                      setCurrentContactIndex(index);
+                      setIsContactTransitioning(false);
+                    }, 100);
+                  }}
+                  disabled={isContactTransitioning}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    index === currentContactIndex 
+                      ? 'w-12 bg-gradient-to-r from-primary to-accent' 
+                      : 'w-2.5 bg-white/30 hover:bg-white/50'
+                  }`}
+                  aria-label={`Go to contact ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Contact Grid - Desktop */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
             {[
               { 
                 icon: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22,6 12,13 2,6', 

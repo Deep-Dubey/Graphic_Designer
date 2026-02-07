@@ -52,41 +52,72 @@ const LoadingScreen = ({ onLoadingComplete }) => {
 
   // Sky color changes based on sun position with smooth transitions
   const getSkyGradient = () => {
-    if (sunPosition < 10) {
-      // Deep night
-      return 'from-[#0f172a] via-[#1e293b] to-[#1e293b]'
-    } else if (sunPosition < 20) {
-      // Early dawn
-      return 'from-[#1e293b] via-[#334155] to-[#475569]'
-    } else if (sunPosition < 30) {
-      // Dawn breaking
-      return 'from-[#475569] via-[#64748b] to-[#f97316]/50'
-    } else if (sunPosition < 40) {
-      // Sunrise colors appearing
-      return 'from-[#fbbf24]/60 via-[#f97316] to-[#fb923c]'
-    } else if (sunPosition < 50) {
-      // Full sunrise - bright warm
-      return 'from-[#fcd34d] via-[#fb923c] to-[#38bdf8]'
-    } else if (sunPosition < 60) {
-      // Peak day - bright
-      return 'from-[#38bdf8] via-[#fb923c] to-[#fcd34d]'
-    } else if (sunPosition < 70) {
-      // Evening beginning
-      return 'from-[#fb923c] via-[#f97316] to-[#fbbf24]/60'
-    } else if (sunPosition < 80) {
-      // Sunset colors
-      return 'from-[#f97316]/50 via-[#64748b] to-[#475569]'
-    } else if (sunPosition < 90) {
-      // Dusk
-      return 'from-[#475569] via-[#334155] to-[#1e293b]'
-    } else {
-      // Night returns
-      return 'from-[#1e293b] via-[#1e293b] to-[#0f172a]'
+    const pos = sunPosition / 100 // Normalize to 0-1
+    
+    // Simple 4-phase color scheme: Night → Morning → Noon → Evening → Night
+    const colorStops = {
+      0: { top: '#0f172a', middle: '#1e293b', bottom: '#334155' }, // Night
+      0.25: { top: '#fb923c', middle: '#f97316', bottom: '#fbbf24' }, // Morning (sunrise)
+      0.5: { top: '#38bdf8', middle: '#60a5fa', bottom: '#93c5fd' }, // Noon (bright day)
+      0.75: { top: '#f97316', middle: '#fb923c', bottom: '#7c3aed' }, // Evening (sunset)
+      1: { top: '#0f172a', middle: '#1e293b', bottom: '#334155' } // Night
+    }
+    
+    // Find surrounding color stops
+    const stops = Object.keys(colorStops).map(Number).sort((a, b) => a - b)
+    let lowerStop = 0
+    let upperStop = 1
+    
+    for (let i = 0; i < stops.length - 1; i++) {
+      if (pos >= stops[i] && pos <= stops[i + 1]) {
+        lowerStop = stops[i]
+        upperStop = stops[i + 1]
+        break
+      }
+    }
+    
+    // Calculate interpolation factor
+    const range = upperStop - lowerStop
+    const factor = range === 0 ? 0 : (pos - lowerStop) / range
+    
+    // Interpolate between hex colors
+    const interpolateColor = (color1, color2, t) => {
+      const hex2rgb = (hex) => {
+        const r = parseInt(hex.slice(1, 3), 16)
+        const g = parseInt(hex.slice(3, 5), 16)
+        const b = parseInt(hex.slice(5, 7), 16)
+        return { r, g, b }
+      }
+      
+      const c1 = hex2rgb(color1)
+      const c2 = hex2rgb(color2)
+      
+      const r = Math.round(c1.r + (c2.r - c1.r) * t)
+      const g = Math.round(c1.g + (c2.g - c1.g) * t)
+      const b = Math.round(c1.b + (c2.b - c1.b) * t)
+      
+      return `rgb(${r}, ${g}, ${b})`
+    }
+    
+    const lower = colorStops[lowerStop]
+    const upper = colorStops[upperStop]
+    
+    return {
+      top: interpolateColor(lower.top, upper.top, factor),
+      middle: interpolateColor(lower.middle, upper.middle, factor),
+      bottom: interpolateColor(lower.bottom, upper.bottom, factor)
     }
   }
 
+  const skyColors = getSkyGradient()
+  
   return (
-    <div className={`fixed inset-0 z-50 bg-gradient-to-b ${getSkyGradient()} overflow-hidden transition-all duration-1000 ease-in-out`}>
+    <div 
+      className="fixed inset-0 z-50 overflow-hidden transition-all duration-[2000ms] ease-in-out"
+      style={{
+        background: `linear-gradient(to bottom, ${skyColors.top}, ${skyColors.middle}, ${skyColors.bottom})`
+      }}
+    >
       {/* Stars/particles in background */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(50)].map((_, i) => {

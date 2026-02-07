@@ -65,6 +65,43 @@
     animation: orbit 20s linear infinite;
   }
   
+  /* Icon enlargement effect */
+  .icon-orbit-container {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .icon-content {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Flip card 3D effect */
+  .flip-card-container {
+    cursor: pointer;
+  }
+  
+  .flip-card-inner {
+    transform-style: preserve-3d;
+  }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-card-front,
+  .flip-card-back {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Carousel slide animations */
+  .animate-slide-in-right {
+    animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  
+  .animate-slide-in-left {
+    animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  
   /* Mobile touch improvements */
   @media (max-width: 768px) {
     .hover\:scale-105:hover,
@@ -116,10 +153,22 @@
 
 @keyframes orbit {
   0% {
-    transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);
+    transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg) scale(1.4);
+  }
+  6.25% {
+    transform: rotate(22.5deg) translateX(var(--orbit-radius)) rotate(-22.5deg) scale(1.4);
+  }
+  12.5% {
+    transform: rotate(45deg) translateX(var(--orbit-radius)) rotate(-45deg) scale(1);
+  }
+  87.5% {
+    transform: rotate(315deg) translateX(var(--orbit-radius)) rotate(-315deg) scale(1);
+  }
+  93.75% {
+    transform: rotate(337.5deg) translateX(var(--orbit-radius)) rotate(-337.5deg) scale(1.4);
   }
   100% {
-    transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);
+    transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg) scale(1.4);
   }
 }
 
@@ -161,5 +210,27 @@
   100% {
     opacity: 0;
     transform: scale(0) translate(calc(var(--tx, 0) * 2), calc(var(--ty, 0) * 2)) rotate(360deg);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.9) rotateY(-15deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1) rotateY(0deg);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%) scale(0.9) rotateY(15deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1) rotateY(0deg);
   }
 }
