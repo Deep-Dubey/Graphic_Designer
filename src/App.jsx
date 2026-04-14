@@ -140,74 +140,62 @@ function App() {
   return (
     <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/5 border-b border-white/10 shadow-2xl shadow-sky-500/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20 md:h-24">
-            {/* Logo with Name */}
-            <div className="flex items-center gap-3 md:gap-4 group">
-              <div className="h-12 w-12 md:h-14 md:w-14 rounded-2xl overflow-hidden border-3 border-transparent bg-gradient-to-br from-primary via-accent to-secondary p-[3px] shadow-xl shadow-primary/50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-2xl group-hover:shadow-accent/70">
-                <div className="h-full w-full rounded-2xl overflow-hidden bg-gradient-to-br from-dark to-[#0c1a2e]">
+      <nav className="fixed top-0 left-0 right-0 z-50 pt-3 px-3 sm:px-5">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-between items-center backdrop-blur-2xl rounded-2xl px-4 sm:px-6 h-16 border border-white/10" style={{background:'rgba(13,1,24,0.88)', boxShadow:'0 0 0 1px rgba(217,70,239,0.15), 0 8px 32px rgba(0,0,0,0.7), 0 0 40px rgba(217,70,239,0.08)'}}>
+            {/* Logo */}
+            <div className="flex items-center gap-3 group cursor-pointer" onClick={() => scrollToSection('home')}>
+              <div className="relative">
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary to-secondary blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative h-9 w-9 rounded-xl overflow-hidden border border-primary/40">
                   <img src={profileImage} alt="Prerana Dipak" className="w-full h-full object-cover" />
                 </div>
               </div>
-              <div className="block">
-                <h3 className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-                  Prerana Dipak
-                </h3>
-                <p className="text-xs md:text-sm text-secondary font-medium">Graphic Designer</p>
+              <div>
+                <p className="text-sm font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent leading-none">Prerana Dipak</p>
+                <p className="text-[11px] text-white/35 mt-0.5 tracking-[0.2em] uppercase">Graphic Designer</p>
               </div>
             </div>
 
             {/* Desktop Navigation */}
-            <ul className="hidden md:flex items-center gap-1 lg:gap-2 bg-white/5 backdrop-blur-sm rounded-2xl px-2 py-2 border border-white/10">
-              {['home', 'about', 'skills', 'experience', 'education', 'projects', 'contact'].map(section => (
+            <ul className="hidden md:flex items-center gap-0.5">
+              {['home','about','skills','experience','education','projects','contact'].map(section => (
                 <li key={section}>
-                  <button 
+                  <button
                     onClick={() => scrollToSection(section)}
-                    className={`relative px-4 py-2.5 rounded-xl text-sm font-bold uppercase tracking-wide transition-all duration-300 overflow-hidden group ${
-                      activeSection === section 
-                        ? 'text-white' 
-                        : 'text-white/60 hover:text-white'
+                    className={`relative px-3 lg:px-4 py-2 rounded-lg text-[13px] font-semibold uppercase tracking-wider transition-all duration-300 ${
+                      activeSection === section ? 'text-white' : 'text-white/45 hover:text-white/90'
                     }`}
                   >
                     {activeSection === section && (
-                      <span className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-secondary rounded-xl animate-gradient-shift bg-200"></span>
+                      <span className="absolute inset-0 bg-gradient-to-r from-primary/25 to-secondary/25 rounded-lg border border-primary/30"></span>
                     )}
-                    <span className="relative z-10 group-hover:scale-110 inline-block transition-transform duration-300">
-                      {section.charAt(0).toUpperCase() + section.slice(1)}
-                    </span>
-                    {activeSection !== section && (
-                      <span className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                    )}
+                    <span className="relative z-10">{section.charAt(0).toUpperCase() + section.slice(1)}</span>
                   </button>
                 </li>
               ))}
             </ul>
 
-            {/* Mobile Menu Button */}
-            <button 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden relative z-50 p-3 rounded-xl bg-gradient-to-r from-white/5 to-white/10 border border-white/10 hover:border-primary/50 active:scale-95 transition-all duration-300"
-              aria-label="Toggle menu"
-            >
-              <div className="w-6 h-5 relative flex flex-col justify-between">
-                <span 
-                  className={`block h-0.5 w-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-300 ${
-                    mobileMenuOpen ? 'rotate-45 translate-y-2' : ''
-                  }`}
-                ></span>
-                <span 
-                  className={`block h-0.5 w-full bg-gradient-to-r from-accent to-secondary rounded-full transition-all duration-300 ${
-                    mobileMenuOpen ? 'opacity-0' : ''
-                  }`}
-                ></span>
-                <span 
-                  className={`block h-0.5 w-full bg-gradient-to-r from-secondary to-primary rounded-full transition-all duration-300 ${
-                    mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
-                  }`}
-                ></span>
-              </div>
-            </button>
+            {/* Hire Me + Mobile toggle */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gradient-to-r from-primary to-accent text-white text-[13px] font-bold uppercase tracking-wider shadow-lg shadow-primary/40 hover:shadow-primary/70 hover:scale-105 active:scale-95 transition-all duration-300"
+              >
+                <span>✦</span> Hire Me
+              </button>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-2.5 rounded-xl border border-white/10 hover:border-primary/50 transition-all duration-300"
+                aria-label="Toggle menu"
+              >
+                <div className="w-5 h-4 relative flex flex-col justify-between">
+                  <span className={`block h-0.5 w-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+                  <span className={`block h-0.5 w-full bg-white/60 rounded-full transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+                  <span className={`block h-0.5 w-full bg-gradient-to-r from-secondary to-primary rounded-full transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -221,7 +209,7 @@ function App() {
       )}
 
       {/* Mobile Menu Sidebar (50% from right) */}
-      <div className={`fixed top-0 right-0 h-full w-1/2 bg-gradient-to-br from-dark via-[#0c1a2e] to-dark backdrop-blur-xl border-l border-white/10 shadow-2xl z-50 md:hidden transition-transform duration-300 ease-in-out ${
+      <div className={`fixed top-0 right-0 h-full w-1/2 bg-gradient-to-br from-dark via-[#120027] to-dark backdrop-blur-xl border-l border-white/10 shadow-2xl z-50 md:hidden transition-transform duration-300 ease-in-out ${
         mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
         {/* Close button */}
@@ -263,42 +251,80 @@ function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center pt-20 md:pt-24 pb-8 md:pb-0 px-4 bg-gradient-to-br from-[#020617] via-[#0a0e27] to-[#0c1a2e] relative overflow-hidden">
-        {/* Animated Background Circles */}
+      <section id="home" className="min-h-screen flex items-center justify-center pt-20 md:pt-24 pb-8 md:pb-0 px-4 bg-gradient-to-br from-[#07000f] via-[#0d0118] to-[#120027] relative overflow-hidden">
+        {/* Deep background glow pools */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '15s, 8s'}}></div>
-          <div className="absolute top-40 right-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '18s, 10s', animationDelay: '1s, 0.5s'}}></div>
-          <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-accent/15 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '20s, 12s', animationDelay: '2s, 1s'}}></div>
-          <div className="absolute top-1/2 right-1/3 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '16s, 9s', animationDelay: '0.5s, 0s'}}></div>
-          <div className="absolute bottom-40 right-10 w-60 h-60 bg-secondary/15 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '17s, 11s', animationDelay: '1.5s, 0.8s'}}></div>
+          <div className="absolute top-20 left-10 w-80 h-80 bg-primary/25 rounded-full blur-3xl animate-move-circle" style={{animationDuration:'15s'}}></div>
+          <div className="absolute top-40 right-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-move-circle" style={{animationDuration:'18s', animationDelay:'1s'}}></div>
+          <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-move-circle" style={{animationDuration:'20s', animationDelay:'2s'}}></div>
+          <div className="absolute bottom-40 right-10 w-64 h-64 bg-primary/15 rounded-full blur-3xl animate-move-circle" style={{animationDuration:'17s', animationDelay:'1.5s'}}></div>
+        </div>
+
+        {/* Ghost monogram backdrop */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+          <span className="text-[20rem] md:text-[28rem] font-black text-outline opacity-100 leading-none">PD</span>
+        </div>
+
+        {/* Dot grid overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(217,70,239,0.07)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none"></div>
+
+        {/* Floating sparkle dots */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[
+            {top:'10%',left:'15%',delay:'0s',size:'w-1.5 h-1.5',color:'bg-primary'},
+            {top:'25%',left:'80%',delay:'0.5s',size:'w-1 h-1',color:'bg-secondary'},
+            {top:'60%',left:'8%',delay:'1s',size:'w-2 h-2',color:'bg-accent'},
+            {top:'75%',left:'90%',delay:'1.5s',size:'w-1.5 h-1.5',color:'bg-primary'},
+            {top:'40%',left:'92%',delay:'2s',size:'w-1 h-1',color:'bg-secondary'},
+            {top:'85%',left:'25%',delay:'0.8s',size:'w-2 h-2',color:'bg-accent'},
+            {top:'15%',left:'55%',delay:'1.3s',size:'w-1 h-1',color:'bg-primary'},
+          ].map((s,i)=>(
+            <div key={i} className={`absolute ${s.size} ${s.color} rounded-full animate-twinkle`} style={{top:s.top,left:s.left,animationDelay:s.delay}}></div>
+          ))}
         </div>
         
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-40"></div>
-        
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-center relative z-10">
-          <div className="space-y-4 md:space-y-6">
+          {/* Left — text content */}
+          <div className="space-y-5 md:space-y-6">
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight animate-fade-in-down" style={{animationDelay: '0.1s'}}>
-              Hi, I'm <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent animate-gradient-shift bg-200">Prerana Dipak</span>
+              Hi, I'm{' '}
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent neon-glow">Prerana</span>
+                <br className="hidden sm:block"/>
+                <span className="bg-gradient-to-r from-secondary via-primary to-accent bg-clip-text text-transparent"> Dipak</span>
+              </span>
             </h1>
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white/90 animate-fade-in-left" style={{animationDelay: '0.3s'}}>Graphic Designer</h2>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/70 leading-relaxed">
-              Creating impactful, audience-focused designs that elevate brand identity through visual storytelling, branding, and digital media.
+
+            {/* Role with outline style */}
+            <div className="flex items-center gap-3 animate-fade-in-left" style={{animationDelay:'0.3s'}}>
+              <div className="flex-shrink-0 w-8 h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">Graphic Designer</h2>
+              <div className="flex-shrink-0 w-8 h-1 bg-gradient-to-r from-secondary to-accent rounded-full"></div>
+            </div>
+
+            <p className="text-sm sm:text-base md:text-lg text-white/60 leading-relaxed max-w-lg animate-fade-in-left" style={{animationDelay:'0.5s'}}>
+              Creating impactful, audience-focused designs that elevate brand identity through <span className="text-primary font-medium">visual storytelling</span>, <span className="text-secondary font-medium">branding</span>, and <span className="text-accent font-medium">digital media</span>.
             </p>
+
+            {/* CTA Buttons */}
             <div className="flex flex-wrap gap-3 md:gap-4 animate-fade-in-up" style={{animationDelay: '0.7s'}}>
               <button 
                 onClick={() => scrollToSection('projects')} 
-                className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary to-secondary rounded-xl font-bold text-sm sm:text-base text-white shadow-lg shadow-primary/50 hover:shadow-xl hover:shadow-primary/70 hover:scale-105 transition-all duration-300"
+                className="relative overflow-hidden group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary to-accent rounded-xl font-bold text-sm sm:text-base text-white shadow-lg shadow-primary/40 hover:shadow-xl hover:shadow-primary/60 hover:scale-105 transition-all duration-300"
               >
-                View My Work
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 animate-shimmer-slide"></span>
+                <span className="relative">View My Work ✦</span>
               </button>
               <button 
                 onClick={() => scrollToSection('contact')} 
-                className="px-5 sm:px-8 py-3 sm:py-4 border-2 border-secondary/50 rounded-xl font-bold text-sm sm:text-base text-white backdrop-blur-sm hover:bg-secondary/10 hover:border-secondary transition-all duration-300"
+                className="px-5 sm:px-8 py-3 sm:py-4 border border-secondary/50 rounded-xl font-bold text-sm sm:text-base text-secondary/90 backdrop-blur-sm hover:bg-secondary/10 hover:border-secondary hover:text-secondary hover:shadow-lg hover:shadow-secondary/20 transition-all duration-300 border-glow-gold"
               >
                 Get In Touch
               </button>
             </div>
-            <div className="flex gap-3 md:gap-4 pt-2 md:pt-4 animate-fade-in-up" style={{animationDelay: '0.9s'}}>
+
+            {/* Social Icons */}
+            <div className="flex gap-3 md:gap-4 pt-2 animate-fade-in-up" style={{animationDelay: '0.9s'}}>
               {[
                 { href: 'mailto:preranadipak17@gmail.com', label: 'Email', d: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22,6 12,13 2,6' },
                 { href: 'https://linkedin.com/in/prerana-dipak', label: 'LinkedIn', fill: true, d: 'M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z' },
@@ -306,7 +332,8 @@ function App() {
                 { href: 'https://instagram.com/prerana.dipak', target: '_blank', label: 'Instagram', fill: true, d: 'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z' },
                 { href: resumePDF, download: 'Prerana_Dipak_Resume.pdf', label: 'Download Resume', isDownload: true, d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3' }
               ].map((social, i) => (
-                <a key={i} href={social.href} target={social.target || "_blank"} rel="noopener noreferrer" download={social.download} aria-label={social.label} className="p-2 sm:p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-gradient-to-r hover:from-primary/20 hover:to-secondary/20 hover:border-primary/50 hover:scale-110 transition-all duration-300">
+                <a key={i} href={social.href} target={social.target || "_blank"} rel="noopener noreferrer" download={social.download} aria-label={social.label}
+                  className="p-2 sm:p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-gradient-to-r hover:from-primary/20 hover:to-accent/20 hover:border-primary/50 hover:scale-110 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
                   <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" viewBox="0 0 24 24" fill={social.fill ? 'currentColor' : 'none'} stroke={social.fill ? 'none' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d={social.d}/>
                   </svg>
@@ -315,18 +342,31 @@ function App() {
             </div>
           </div>
 
+          {/* Right — orbit ring with profile image centre */}
           <div className="relative h-64 sm:h-80 md:h-96 lg:h-[600px] flex items-center justify-center mt-8 md:mt-0">
             {/* Center skill name on hover */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
               <div className={`transition-all duration-300 text-center ${hoveredSkill ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
                 {hoveredSkill && (
                   <>
-                    <div className="text-base sm:text-lg md:text-xl font-extrabold" style={{color: hoveredSkill.color}}>{hoveredSkill.name}</div>
+                    <div className="text-base sm:text-lg md:text-xl font-extrabold neon-glow" style={{color: hoveredSkill.color}}>{hoveredSkill.name}</div>
                     <div className="w-8 h-0.5 mx-auto mt-1 rounded-full" style={{backgroundColor: hoveredSkill.color}}></div>
                   </>
                 )}
               </div>
             </div>
+
+            {/* Profile image in the centre of the orbit */}
+            {!hoveredSkill && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[5]">
+                <div className="relative">
+                  {/* Profile image */}
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-primary/50 shadow-2xl shadow-primary/40 relative z-10">
+                    <img src={profileImage} alt="Prerana Dipak" className="w-full h-full object-cover"/>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Orbiting Skill Icons */}
             {[
@@ -343,7 +383,6 @@ function App() {
             ].map((skill, index) => {
               const totalIcons = 10;
               const orbitRadius = typeof window !== 'undefined' && window.innerWidth < 480 ? 100 : (window.innerWidth < 640 ? 120 : (window.innerWidth < 768 ? 150 : 175));
-              
               return (
                 <div
                   key={index}
@@ -355,32 +394,16 @@ function App() {
                   }}
                 >
                   <div className="group cursor-pointer relative h-full w-full" onMouseEnter={() => setHoveredSkill(skill)} onMouseLeave={() => setHoveredSkill(null)}>
-                    {/* Constant Glow Effect */}
                     <div className="absolute inset-0 rounded-2xl opacity-50 group-hover:opacity-100 blur-xl transition-opacity duration-500 scale-150" style={{backgroundColor: skill.color}}></div>
-                    
-                    {/* Adobe-Style Icon Container */}
                     <div 
-                      className="icon-content relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center font-bold text-base sm:text-lg md:text-xl lg:text-2xl border-2 border-opacity-30 hover:border-opacity-60"
-                      style={{
-                        backgroundColor: skill.bgColor,
-                        color: skill.color,
-                        borderColor: skill.color,
-                        fontFamily: 'Arial, sans-serif',
-                        fontWeight: '800'
-                      }}
+                      className="icon-content relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center font-bold text-base sm:text-lg md:text-xl lg:text-2xl border-2 border-opacity-30 hover:border-opacity-60 group-hover:scale-125"
+                      style={{ backgroundColor: skill.bgColor, color: skill.color, borderColor: skill.color, fontFamily: 'Arial, sans-serif', fontWeight: '800' }}
                     >
                       <span className="relative z-10">
-                        {skill.type === 'text' ? (
-                          skill.icon
-                        ) : (
-                          <skill.Icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
-                        )}
+                        <skill.Icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
                       </span>
-                      {/* Inner gradient overlay */}
                       <div className="absolute inset-0 rounded-2xl opacity-20" style={{background: `radial-gradient(circle at 30% 30%, ${skill.color}, transparent)`}}></div>
                     </div>
-                    
-
                   </div>
                 </div>
               );
@@ -390,7 +413,7 @@ function App() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0a0e27] via-[#020617] to-[#0c1a2e] relative overflow-hidden">
+      <section id="about" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0d0118] via-[#07000f] to-[#120027] relative overflow-hidden">
         {/* Animated Background Circles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '15s, 9s'}}></div>
@@ -406,9 +429,12 @@ function App() {
                 Get to know me
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-              About Me
-            </h2>
+            <div className="relative">
+              <span className="absolute inset-0 flex items-center justify-center text-[5rem] sm:text-[7rem] md:text-[9rem] font-black text-outline select-none pointer-events-none leading-none">ABOUT</span>
+              <h2 className="relative text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                About Me
+              </h2>
+            </div>
             <div className="w-32 h-1.5 bg-gradient-to-r from-primary via-accent to-secondary mx-auto rounded-full"></div>
           </div>
 
@@ -484,7 +510,7 @@ function App() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 lg:py-28 px-4 bg-gradient-to-br from-[#020617] via-[#0a0e27] to-[#0c1a2e] relative overflow-hidden">
+      <section id="skills" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 lg:py-28 px-4 bg-gradient-to-br from-[#07000f] via-[#0d0118] to-[#120027] relative overflow-hidden">
         {/* Animated Background Circles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-10 left-20 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '17s, 10s'}}></div>
@@ -501,9 +527,12 @@ function App() {
                 What I Bring to the Table
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-              Skills & Expertise
-            </h2>
+            <div className="relative">
+              <span className="absolute inset-0 flex items-center justify-center text-[5rem] sm:text-[7rem] md:text-[9rem] font-black text-outline select-none pointer-events-none leading-none">SKILLS</span>
+              <h2 className="relative text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                Skills &amp; Expertise
+              </h2>
+            </div>
             <div className="w-32 h-1.5 bg-gradient-to-r from-primary via-accent to-secondary mx-auto rounded-full"></div>
           </div>
 
@@ -573,7 +602,7 @@ function App() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0a0e27] via-[#020617] to-[#0c1a2e] relative overflow-hidden">
+      <section id="experience" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0d0118] via-[#07000f] to-[#120027] relative overflow-hidden">
         {/* Animated Background Circles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 right-20 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '18s, 11s'}}></div>
@@ -588,9 +617,12 @@ function App() {
                 My Journey
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-              Work Experience
-            </h2>
+            <div className="relative">
+              <span className="absolute inset-0 flex items-center justify-center text-[4rem] sm:text-[6rem] md:text-[8rem] font-black text-outline select-none pointer-events-none leading-none">WORK</span>
+              <h2 className="relative text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                Work Experience
+              </h2>
+            </div>
             <div className="w-32 h-1.5 bg-gradient-to-r from-primary via-accent to-secondary mx-auto rounded-full"></div>
           </div>
 
@@ -719,7 +751,7 @@ function App() {
       </section>
 
       {/* Education Section */}
-      <section id="education" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#020617] via-[#0a0e27] to-[#0c1a2e] relative overflow-hidden">
+      <section id="education" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#07000f] via-[#0d0118] to-[#120027] relative overflow-hidden">
         {/* Animated Background Circles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-10 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '19s, 12s'}}></div>
@@ -734,9 +766,12 @@ function App() {
                 Academic Background
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 bg-gradient-to-r from-accent via-secondary to-primary bg-clip-text text-transparent">
-              Education
-            </h2>
+            <div className="relative">
+              <span className="absolute inset-0 flex items-center justify-center text-[4rem] sm:text-[6rem] md:text-[8rem] font-black text-outline select-none pointer-events-none leading-none">EDU</span>
+              <h2 className="relative text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 bg-gradient-to-r from-accent via-secondary to-primary bg-clip-text text-transparent">
+                Education
+              </h2>
+            </div>
             <div className="w-32 h-1.5 bg-gradient-to-r from-accent via-secondary to-primary mx-auto rounded-full"></div>
           </div>
 
@@ -827,7 +862,7 @@ function App() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#020617] via-[#0a0e27] to-[#0c1a2e] relative overflow-hidden">
+      <section id="projects" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#07000f] via-[#0d0118] to-[#120027] relative overflow-hidden">
         {/* Animated Background Circles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-1/4 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '16s, 9s'}}></div>
@@ -843,9 +878,12 @@ function App() {
                 Portfolio Showcase
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-              Featured Projects
-            </h2>
+            <div className="relative">
+              <span className="absolute inset-0 flex items-center justify-center text-[4rem] sm:text-[6rem] md:text-[8rem] font-black text-outline select-none pointer-events-none leading-none">WORK</span>
+              <h2 className="relative text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                Featured Projects
+              </h2>
+            </div>
             <div className="w-32 h-1.5 bg-gradient-to-r from-primary via-accent to-secondary mx-auto rounded-full"></div>
           </div>
 
@@ -1047,7 +1085,7 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0a0e27] via-[#020617] to-[#0c1a2e] relative overflow-hidden">
+      <section id="contact" className="min-h-screen flex items-center justify-center py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-br from-[#0d0118] via-[#07000f] to-[#120027] relative overflow-hidden">
         {/* Animated Background Circles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-move-circle animate-color-shift" style={{animationDuration: '17s, 10s'}}></div>
@@ -1063,9 +1101,12 @@ function App() {
                 Get In Touch
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-6 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-              Let's Work Together
-            </h2>
+            <div className="relative">
+              <span className="absolute inset-0 flex items-center justify-center text-[4rem] sm:text-[6rem] md:text-[8rem] font-black text-outline select-none pointer-events-none leading-none">HELLO</span>
+              <h2 className="relative text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-6 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                Let's Work Together
+              </h2>
+            </div>
             <div className="w-32 h-1.5 bg-gradient-to-r from-primary via-accent to-secondary mx-auto rounded-full mb-6"></div>
             <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
               Have a project in mind? Let's create something amazing together.
@@ -1325,9 +1366,60 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="py-6 md:py-8 px-4 bg-gradient-to-r from-[#020617] via-[#0a0e27] to-[#0c1a2e] border-t border-white/10 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto text-center text-white/60">
-          <p className="text-xs sm:text-sm md:text-base">&copy; 2026 Prerana Dipak. Crafted with passion and creativity.</p>
+      <footer style={{background:'rgba(7,0,15,0.97)'}}>
+        {/* Top gradient divider */}
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
+            {/* Brand column */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-xl overflow-hidden border border-primary/40 shadow-lg shadow-primary/30">
+                  <img src={profileImage} alt="Prerana Dipak" className="w-full h-full object-cover" />
+                </div>
+                <h3 className="text-xl font-black bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">Prerana Dipak</h3>
+              </div>
+              <p className="text-white/35 text-sm leading-relaxed">Crafting visual stories that inspire, engage, and leave a lasting impression.</p>
+              <div className="flex gap-2">
+                <span className="px-3 py-1 rounded-full text-xs font-semibold border border-primary/30 text-primary/80 bg-primary/5">Graphic Design</span>
+                <span className="px-3 py-1 rounded-full text-xs font-semibold border border-secondary/30 text-secondary/80 bg-secondary/5">UI/UX</span>
+                <span className="px-3 py-1 rounded-full text-xs font-semibold border border-accent/30 text-accent/80 bg-accent/5">Branding</span>
+              </div>
+            </div>
+
+            {/* Quick links */}
+            <div className="space-y-4">
+              <h4 className="text-xs font-bold text-white/25 uppercase tracking-[0.2em]">Quick Links</h4>
+              <ul className="grid grid-cols-2 gap-x-4 gap-y-2">
+                {['about','skills','experience','education','projects','contact'].map(s => (
+                  <li key={s}>
+                    <button onClick={() => scrollToSection(s)} className="text-white/45 hover:text-primary text-sm transition-colors duration-200 capitalize flex items-center gap-1.5 group">
+                      <span className="w-1 h-1 rounded-full bg-primary/40 group-hover:bg-primary transition-colors duration-200"></span>
+                      {s}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* CTA column */}
+            <div className="space-y-4">
+              <h4 className="text-xs font-bold text-white/25 uppercase tracking-[0.2em]">Let's Connect</h4>
+              <p className="text-white/35 text-sm leading-relaxed">Have a project in mind? Let's bring your vision to life together.</p>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-accent text-white text-sm font-bold shadow-lg shadow-primary/30 hover:shadow-primary/60 hover:scale-105 active:scale-95 transition-all duration-300"
+              >
+                Get In Touch ✦
+              </button>
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="mt-10 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p className="text-white/20 text-xs">&copy; 2026 Prerana Dipak. All rights reserved.</p>
+            <p className="text-white/15 text-xs">Crafted with passion &amp; creativity ✦</p>
+          </div>
         </div>
       </footer>
 

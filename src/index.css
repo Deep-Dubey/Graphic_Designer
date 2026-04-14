@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply bg-gradient-to-br from-[#020617] via-[#0a0e27] to-[#020617] text-white overflow-x-hidden;
+    @apply bg-gradient-to-br from-[#07000f] via-[#0d0118] to-[#07000f] text-white overflow-x-hidden;
     font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -233,4 +233,49 @@
     opacity: 1;
     transform: translateX(0) scale(1) rotateY(0deg);
   }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinSlowReverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes shimmerSlide {
+  0% { transform: translateX(-100%) skewX(-12deg); }
+  100% { transform: translateX(250%) skewX(-12deg); }
+}
+
+.animate-twinkle { animation: twinkle 2s ease-in-out infinite; }
+.animate-spin-slow { animation: spinSlow 12s linear infinite; }
+.animate-spin-slow-reverse { animation: spinSlowReverse 16s linear infinite; }
+.animate-shimmer-slide { animation: shimmerSlide 2.5s ease-in-out infinite; }
+
+/* Ghost outline text */
+.text-outline {
+  -webkit-text-stroke: 1px rgba(217, 70, 239, 0.15);
+  color: transparent;
+}
+
+/* Neon glow utilities */
+.neon-glow {
+  text-shadow: 0 0 20px rgba(217, 70, 239, 0.8), 0 0 40px rgba(217, 70, 239, 0.4), 0 0 80px rgba(217, 70, 239, 0.2);
+}
+.neon-glow-gold {
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.8), 0 0 40px rgba(245, 158, 11, 0.4);
+}
+.border-glow {
+  box-shadow: 0 0 20px rgba(217, 70, 239, 0.3), inset 0 0 20px rgba(217, 70, 239, 0.05);
+}
+.border-glow-gold {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), inset 0 0 20px rgba(245, 158, 11, 0.05);
 }

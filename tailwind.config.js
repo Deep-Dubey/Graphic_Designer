@@ -7,14 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#0ea5e9',     // Sky blue - main accent
-        secondary: '#38bdf8',   // Lighter sky blue
-        accent: '#0284c7',      // Sky 600 - darker accent
-        success: '#10b981',     // Keep green for success
-        dark: '#0a0e27',        // Dark navy background
-        darker: '#020617',      // Slate 950 - deeper dark
+        primary: '#d946ef',     // Fuchsia - main accent
+        secondary: '#f59e0b',   // Amber/Gold - warm contrast
+        accent: '#8b5cf6',      // Violet - complement
+        success: '#10b981',     // Green for success
+        dark: '#0d0118',        // Deep purple-black background
+        darker: '#07000f',      // Even deeper purple-black
         light: '#e2e8f0',       // Light gray
-        glow: '#0ea5e9',        // Glow color matching primary
+        glow: '#d946ef',        // Glow color matching primary
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',
