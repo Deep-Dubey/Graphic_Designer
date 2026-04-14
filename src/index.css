@@ -255,6 +255,15 @@
   100% { transform: translateX(250%) skewX(-12deg); }
 }
 
+@keyframes ghostReveal {
+  0%   { opacity: 0; transform: scale(1.18) translateY(30px); filter: blur(24px); letter-spacing: 0.35em; }
+  40%  { opacity: 0.6; filter: blur(6px); }
+  70%  { opacity: 0.9; transform: scale(1.03) translateY(-6px); filter: blur(1px); letter-spacing: 0.06em; }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); letter-spacing: 0.04em; }
+}
+
+.animate-ghost-reveal { animation: ghostReveal 2s cubic-bezier(0.22,1,0.36,1) forwards; }
+
 .animate-twinkle { animation: twinkle 2s ease-in-out infinite; }
 .animate-spin-slow { animation: spinSlow 12s linear infinite; }
 .animate-spin-slow-reverse { animation: spinSlowReverse 16s linear infinite; }

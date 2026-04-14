@@ -260,9 +260,8 @@ function App() {
           <div className="absolute bottom-40 right-10 w-64 h-64 bg-primary/15 rounded-full blur-3xl animate-move-circle" style={{animationDuration:'17s', animationDelay:'1.5s'}}></div>
         </div>
 
-        {/* Ghost monogram backdrop */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-          <span className="text-[20rem] md:text-[28rem] font-black text-outline opacity-100 leading-none">PD</span>
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+          <span className="text-[20rem] md:text-[28rem] font-black text-outline leading-none animate-ghost-reveal" style={{letterSpacing:'0.04em'}}>PD</span>
         </div>
 
         {/* Dot grid overlay */}
