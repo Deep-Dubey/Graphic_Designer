@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import profileImage from './asset/image.jpeg'
 import resumePDF from './asset/Prerana_Dipak_Resume.pdf'
+import internshipCertificate from './asset/internship.jpg'
+import mentorsityCertificate from './asset/Internship Certificate  (Prerana Dipak)_page-0001.jpg'
 import LoadingScreen from './components/LoadingScreen'
 import { SiAdobephotoshop, SiAdobeillustrator, SiAdobeindesign, SiAdobepremierepro, SiAdobeaftereffects, SiFigma, SiCanva, SiAdobexd, SiAdobelightroom, SiSketch } from 'react-icons/si'
 
@@ -19,6 +21,7 @@ function App() {
   const [currentContactIndex, setCurrentContactIndex] = useState(0)
   const [contactSlideDirection, setContactSlideDirection] = useState('right')
   const [isContactTransitioning, setIsContactTransitioning] = useState(false)
+  const [hoveredSkill, setHoveredSkill] = useState(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -136,7 +139,7 @@ function App() {
 
   return (
     <div className="min-h-screen">
-      {/* Navigation */}}
+      {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/5 border-b border-white/10 shadow-2xl shadow-sky-500/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20 md:h-24">
@@ -313,6 +316,17 @@ function App() {
           </div>
 
           <div className="relative h-64 sm:h-80 md:h-96 lg:h-[600px] flex items-center justify-center mt-8 md:mt-0">
+            {/* Center skill name on hover */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+              <div className={`transition-all duration-300 text-center ${hoveredSkill ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+                {hoveredSkill && (
+                  <>
+                    <div className="text-base sm:text-lg md:text-xl font-extrabold" style={{color: hoveredSkill.color}}>{hoveredSkill.name}</div>
+                    <div className="w-8 h-0.5 mx-auto mt-1 rounded-full" style={{backgroundColor: hoveredSkill.color}}></div>
+                  </>
+                )}
+              </div>
+            </div>
 
             {/* Orbiting Skill Icons */}
             {[
@@ -340,7 +354,7 @@ function App() {
                     '--orbit-radius': `${orbitRadius}px`,
                   }}
                 >
-                  <div className="group cursor-pointer relative h-full w-full">
+                  <div className="group cursor-pointer relative h-full w-full" onMouseEnter={() => setHoveredSkill(skill)} onMouseLeave={() => setHoveredSkill(null)}>
                     {/* Constant Glow Effect */}
                     <div className="absolute inset-0 rounded-2xl opacity-50 group-hover:opacity-100 blur-xl transition-opacity duration-500 scale-150" style={{backgroundColor: skill.color}}></div>
                     
@@ -366,12 +380,7 @@ function App() {
                       <div className="absolute inset-0 rounded-2xl opacity-20" style={{background: `radial-gradient(circle at 30% 30%, ${skill.color}, transparent)`}}></div>
                     </div>
                     
-                    {/* Tooltip */}
-                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-10 opacity-0 group-hover:opacity-100 group-hover:-bottom-12 transition-all duration-300 whitespace-nowrap pointer-events-none z-50">
-                      <div className="px-3 py-1 rounded-lg text-white text-xs font-bold shadow-lg" style={{backgroundColor: skill.color}}>
-                        {skill.name}
-                      </div>
-                    </div>
+
                   </div>
                 </div>
               );
@@ -450,8 +459,8 @@ function App() {
                   <div className="text-sm text-gray-400">Graphic Design</div>
                 </div>
                 <div className="p-6 rounded-2xl bg-gradient-to-br from-accent/10 to-transparent border border-accent/20 hover:border-accent/60 transition-all transform hover:scale-105">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-accent to-secondary bg-clip-text text-transparent mb-2">10</div>
-                  <div className="text-sm text-gray-400">Months Experience</div>
+                  <div className="text-4xl font-bold bg-gradient-to-r from-accent to-secondary bg-clip-text text-transparent mb-2">1.2</div>
+                  <div className="text-sm text-gray-400">Years Experience</div>
                 </div>
               </div>
 
@@ -585,85 +594,126 @@ function App() {
             <div className="w-32 h-1.5 bg-gradient-to-r from-primary via-accent to-secondary mx-auto rounded-full"></div>
           </div>
 
-          {/* Two Column Layout */}
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-            {/* Left Side - Experience Content */}
-            <div className="space-y-8 animate-fade-in-left">
-              <div className="mb-4">
+          {/* Experience Cards - Full Width Timeline */}
+          <div className="space-y-12">
+
+            {/* --- Entry 1: Mentorsity (Most Recent) --- */}
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+              {/* Left - Content */}
+              <div className="space-y-6 animate-fade-in-left">
+                <div className="inline-block px-5 py-2.5 rounded-full bg-gradient-to-r from-secondary/20 to-primary/20 border border-secondary/40 text-secondary text-sm font-semibold">
+                  July 21, 2025 – November 21, 2025
+                </div>
+                <div className="p-8 rounded-3xl bg-gradient-to-br from-secondary/10 to-transparent border border-secondary/20 hover:border-secondary/60 hover:shadow-2xl hover:shadow-secondary/20 transition-all duration-500">
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-secondary to-primary flex items-center justify-center shadow-lg">
+                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Graphic Designer Intern</h3>
+                      <h4 className="text-base sm:text-lg md:text-xl text-secondary font-semibold">Mentorsity</h4>
+                    </div>
+                  </div>
+                  <ul className="space-y-4 text-gray-300 mb-6">
+                    {[
+                      'Designed creative social media graphics and marketing materials — 95% client approval rate',
+                      'Developed brand identity assets including logos, banners, and promotional content',
+                      'Delivered 30+ design projects on schedule with consistent quality and brand adherence — 98% on-time delivery',
+                      'Applied Adobe Creative Suite and Figma to produce print-ready and digital design assets with 92% positive feedback'
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-3 hover:text-white transition-colors group">
+                        <span className="flex-shrink-0 w-2 h-2 rounded-full bg-gradient-to-r from-secondary to-primary mt-2 group-hover:w-3 group-hover:h-3 transition-all"></span>
+                        <span className="font-medium">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-3 pt-4 border-t border-white/10">
+                    {[{value: '95%', label: 'Client Approval'}, {value: '30+', label: 'Projects Delivered'}, {value: '98%', label: 'On-Time Delivery'}].map((stat, i) => (
+                      <div key={i} className="text-center p-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                        <div className="text-xl font-extrabold bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">{stat.value}</div>
+                        <div className="text-xs text-gray-400 mt-1">{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {/* Right - Certificate */}
+              <div className="relative animate-fade-in-right hidden md:block">
+                <div className="relative max-w-md mx-auto">
+                  <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-3xl blur-2xl animate-pulse"></div>
+                  <div className="relative rounded-3xl bg-gradient-to-br from-secondary/10 via-primary/5 to-transparent border border-secondary/30 hover:border-secondary/60 hover:shadow-2xl hover:shadow-secondary/20 transition-all duration-500 overflow-hidden p-3">
+                    <p className="text-center text-xs text-secondary/70 font-semibold uppercase tracking-wider mb-2">Internship Certificate</p>
+                    <img src={mentorsityCertificate} alt="Internship Certificate - Mentorsity" className="w-full h-auto rounded-2xl object-contain shadow-xl" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="flex items-center gap-4">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"></div>
+              <span className="px-4 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-semibold uppercase tracking-wider">Previous Experience</span>
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"></div>
+            </div>
+
+            {/* --- Entry 2: The Vaishnavi Deoghar --- */}
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+              {/* Left - Content */}
+              <div className="space-y-6 animate-fade-in-left">
                 <div className="inline-block px-5 py-2.5 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/40 text-primary text-sm font-semibold">
                   June 2024 – March 2025
                 </div>
-              </div>
-
-              <div className="p-8 rounded-3xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500">
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
-                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Graphic Designer Intern</h3>
-                    <h4 className="text-base sm:text-lg md:text-xl text-accent font-semibold">The Vaishnavi Deoghar</h4>
-                  </div>
-                </div>
-                
-                <ul className="space-y-4 text-gray-300">
-                  {[
-                    'Designed branding visuals for festive seasons and campaigns',
-                    'Created culturally inspired packaging designs',
-                    'Developed social media creatives and promotional content',
-                    'Ensured brand consistency across all platforms'
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 hover:text-white transition-colors group">
-                      <span className="flex-shrink-0 w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent mt-2 group-hover:w-3 group-hover:h-3 transition-all"></span>
-                      <span className="font-medium">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Right Side - Animated Illustration */}
-            <div className="relative animate-fade-in-right hidden md:block">
-              <div className="relative aspect-square max-w-md mx-auto">
-                {/* Animated background circles */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl animate-pulse"></div>
-                
-                {/* Main illustration container */}
-                <div className="relative h-full rounded-3xl bg-gradient-to-br from-primary/10 via-accent/5 to-transparent border border-primary/20 backdrop-blur-sm p-8 flex items-center justify-center overflow-hidden">
-                  {/* Floating design elements */}
-                  <div className="absolute top-10 right-10 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent opacity-20 animate-float"></div>
-                  <div className="absolute bottom-10 left-10 w-16 h-16 rounded-full bg-gradient-to-br from-accent to-secondary opacity-20 animate-float" style={{animationDelay: '1s'}}></div>
-                  <div className="absolute top-1/2 left-10 w-12 h-12 rounded-lg bg-gradient-to-br from-secondary to-primary opacity-20 animate-float" style={{animationDelay: '2s'}}></div>
-                  
-                  {/* Center graphic design icon */}
-                  <div className="relative z-10 text-center">
-                    <div className="mb-6 animate-bounce-slow">
-                      <svg className="w-48 h-48 mx-auto text-primary/40" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/>
+                <div className="p-8 rounded-3xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500">
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
+                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                       </svg>
                     </div>
-                    
-                    {/* Rotating text badges */}
-                    <div className="flex flex-col gap-3">
-                      {['Creative Design', 'Brand Identity', 'Visual Strategy'].map((text, i) => (
-                        <div 
-                          key={i}
-                          className="px-4 py-2 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30 text-primary text-sm font-semibold animate-fade-in-up"
-                          style={{animationDelay: `${i * 0.2}s`}}
-                        >
-                          {text}
-                        </div>
-                      ))}
+                    <div>
+                      <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Graphic Designer Intern</h3>
+                      <h4 className="text-base sm:text-lg md:text-xl text-accent font-semibold">The Vaishnavi Deoghar</h4>
                     </div>
                   </div>
-                  
-                  {/* Decorative grid */}
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(102,126,234,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(102,126,234,0.05)_1px,transparent_1px)] bg-[size:30px_30px]"></div>
+                  <ul className="space-y-4 text-gray-300 mb-6">
+                    {[
+                      'Designed branding visuals for festive seasons and campaigns — 90% positive client feedback',
+                      'Created culturally inspired packaging designs with 85% increase in visual engagement',
+                      'Developed social media creatives and promotional content — boosted reach by 70%',
+                      'Ensured brand consistency across all platforms with 95% adherence to brand guidelines'
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-3 hover:text-white transition-colors group">
+                        <span className="flex-shrink-0 w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent mt-2 group-hover:w-3 group-hover:h-3 transition-all"></span>
+                        <span className="font-medium">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-3 pt-4 border-t border-white/10">
+                    {[{value: '90%', label: 'Client Feedback'}, {value: '85%', label: 'Visual Engagement'}, {value: '95%', label: 'Brand Consistency'}].map((stat, i) => (
+                      <div key={i} className="text-center p-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                        <div className="text-xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{stat.value}</div>
+                        <div className="text-xs text-gray-400 mt-1">{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {/* Right - Certificate */}
+              <div className="relative animate-fade-in-right hidden md:block">
+                <div className="relative max-w-md mx-auto">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl animate-pulse"></div>
+                  <div className="relative rounded-3xl bg-gradient-to-br from-primary/10 via-accent/5 to-transparent border border-primary/30 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500 overflow-hidden p-3">
+                    <p className="text-center text-xs text-primary/70 font-semibold uppercase tracking-wider mb-2">Internship Certificate</p>
+                    <img src={internshipCertificate} alt="Internship Certificate - The Vaishnavi Deoghar" className="w-full h-auto rounded-2xl object-contain shadow-xl" />
+                  </div>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
