@@ -1071,14 +1071,19 @@ function App() {
 
           {/* View more button */}
           <div className="text-center mt-12">
-            <button className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/30 hover:from-primary/20 hover:to-accent/20 hover:border-primary/60 hover:shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all duration-300 group">
+            <a
+              href="https://github.com/prerana-dipak"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/30 hover:from-primary/20 hover:to-accent/20 hover:border-primary/60 hover:shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all duration-300 group"
+            >
               <span className="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 View All Projects
               </span>
               <svg className="w-5 h-5 text-primary group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
               </svg>
-            </button>
+            </a>
           </div>
         </div>
       </section>
