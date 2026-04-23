@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import emailjs from '@emailjs/browser'
 import profileImage from './asset/image.jpeg'
 import resumePDF from './asset/Prerana_Dipak_Resume.pdf'
 import internshipCertificate from './asset/internship.jpg'
@@ -22,6 +23,9 @@ function App() {
   const [contactSlideDirection, setContactSlideDirection] = useState('right')
   const [isContactTransitioning, setIsContactTransitioning] = useState(false)
   const [hoveredSkill, setHoveredSkill] = useState(null)
+  const [contactForm, setContactForm] = useState({ name: '', email: '', title: '', message: '' })
+  const [contactStatus, setContactStatus] = useState('idle') // idle | sending | sent | error
+  const contactFormRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -139,6 +143,46 @@ function App() {
 
   return (
     <div className="min-h-screen">
+      {/* Toast Notification */}
+      <div
+        className={`fixed top-6 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border transition-all duration-500 ${
+          contactStatus === 'sent'
+            ? 'opacity-100 translate-y-0 pointer-events-auto bg-[#0d1f14] border-primary/50 shadow-primary/30'
+            : contactStatus === 'error'
+            ? 'opacity-100 translate-y-0 pointer-events-auto bg-[#1f0d0d] border-red-500/50 shadow-red-500/20'
+            : 'opacity-0 -translate-y-4 pointer-events-none bg-transparent border-transparent'
+        }`}
+      >
+        {contactStatus === 'sent' && (
+          <>
+            <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-primary/20 flex items-center justify-center">
+              <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <div>
+              <p className="text-white font-bold text-sm">Message Sent!</p>
+              <p className="text-gray-400 text-xs mt-0.5">I'll get back to you soon.</p>
+            </div>
+          </>
+        )}
+        {contactStatus === 'error' && (
+          <>
+            <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-red-500/20 flex items-center justify-center">
+              <svg className="w-5 h-5 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <div>
+              <p className="text-white font-bold text-sm">Failed to send</p>
+              <p className="text-gray-400 text-xs mt-0.5">Something went wrong. Please try again.</p>
+            </div>
+          </>
+        )}
+      </div>
+
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 pt-3 px-3 sm:px-5">
         <div className="max-w-7xl mx-auto">
@@ -1117,253 +1161,213 @@ function App() {
             </p>
           </div>
 
-          {/* Contact Carousel - Mobile Only */}
-          <div className="md:hidden relative max-w-2xl mx-auto mb-12 px-2 sm:px-4">
-            {/* Left Arrow */}
-            <button
-              onClick={() => {
-                if (isContactTransitioning) return;
-                setIsContactTransitioning(true);
-                setContactSlideDirection('left');
-                setTimeout(() => {
-                  setCurrentContactIndex((prev) => (prev === 0 ? 2 : prev - 1));
-                  setIsContactTransitioning(false);
-                }, 100);
-              }}
-              disabled={isContactTransitioning}
-              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-gradient-to-r from-primary/40 to-accent/40 backdrop-blur-sm border-2 border-primary/60 hover:from-primary/60 hover:to-accent/60 hover:border-primary/80 hover:scale-110 transition-all duration-300 group shadow-xl shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed"
-              aria-label="Previous contact"
-            >
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
-              </svg>
-            </button>
+          {/* Contact Split Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 max-w-6xl mx-auto">
 
-            {/* Right Arrow */}
-            <button
-              onClick={() => {
-                if (isContactTransitioning) return;
-                setIsContactTransitioning(true);
-                setContactSlideDirection('right');
-                setTimeout(() => {
-                  setCurrentContactIndex((prev) => (prev === 2 ? 0 : prev + 1));
-                  setIsContactTransitioning(false);
-                }, 100);
-              }}
-              disabled={isContactTransitioning}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-gradient-to-r from-primary/40 to-accent/40 backdrop-blur-sm border-2 border-primary/60 hover:from-primary/60 hover:to-accent/60 hover:border-primary/80 hover:scale-110 transition-all duration-300 group shadow-xl shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed"
-              aria-label="Next contact"
-            >
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
-              </svg>
-            </button>
+            {/* Left - Contact Info Card */}
+            <div className="relative rounded-3xl p-8 md:p-10 overflow-hidden border border-white/10"
+              style={{ background: 'linear-gradient(135deg, rgba(20,1,42,0.95) 0%, rgba(10,0,20,0.98) 100%)' }}>
+              {/* gradient border glow */}
+              <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{boxShadow: '0 0 0 1.5px rgba(80,200,120,0.18), 0 0 40px 0 rgba(80,200,120,0.07)'}}></div>
+              <div className="absolute top-0 left-0 w-full h-1 rounded-t-3xl bg-gradient-to-r from-primary via-accent to-secondary opacity-80"></div>
 
-            {/* Contact Cards - Mobile Carousel */}
-            {[
-              { 
-                icon: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22,6 12,13 2,6', 
-                title: 'Email', 
-                value: 'preranadipak17@gmail.com', 
-                href: 'mailto:preranadipak17@gmail.com', 
-                subtitle: "I'll respond within 24 hours",
-                gradient: 'from-blue-500/10 to-cyan-500/10',
-                iconColor: 'text-blue-400'
-              },
-              { 
-                icon: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z', 
-                title: 'Phone', 
-                value: '+91 7979959056', 
-                href: 'tel:7979959056', 
-                subtitle: 'Mon-Fri, 9AM-6PM IST',
-                gradient: 'from-purple-500/10 to-pink-500/10',
-                iconColor: 'text-purple-400'
-              },
-              { 
-                icon: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z', 
-                title: 'Location', 
-                value: 'Pune, India', 
-                href: null, 
-                subtitle: 'Open for opportunities',
-                gradient: 'from-amber-500/10 to-orange-500/10',
-                iconColor: 'text-amber-400'
-              }
-            ].map((contact, i) => (
-              <div 
-                key={i}
-                className={`${i === currentContactIndex ? (contactSlideDirection === 'right' ? 'animate-slide-in-right' : 'animate-slide-in-left') : 'hidden'}`}
-              >
-              <div 
-                className={`group relative p-8 rounded-3xl bg-gradient-to-br ${contact.gradient} backdrop-blur-sm border border-white/10 hover:border-white/30 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 text-center overflow-hidden`}
-              >
-                {/* Glowing orb on hover */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
-                <div className="relative z-10">
-                  {/* Icon */}
-                  <div className={`inline-flex p-5 rounded-2xl bg-white/5 border border-white/10 mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 ${contact.iconColor}`}>
-                    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d={contact.icon}/>
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">Contact Information</h3>
+              <p className="text-gray-400 text-sm md:text-base mb-8 leading-relaxed">
+                I'm currently open to freelance projects and full-time opportunities. Let's connect!
+              </p>
+
+              <div className="space-y-5 mb-8">
+                {/* Email */}
+                <a href="mailto:preranadipak17@gmail.com" className="flex items-center gap-4 group">
+                  <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-primary/15 border border-primary/25 flex items-center justify-center group-hover:bg-primary/25 transition-colors duration-300">
+                    <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                      <polyline points="22,6 12,13 2,6"/>
                     </svg>
                   </div>
-                  
-                  <h4 className="text-xl font-bold mb-3 text-white">{contact.title}</h4>
-                  
-                  {contact.href ? (
-                    <a 
-                      href={contact.href} 
-                      className="block text-base text-gray-300 hover:text-white transition-colors mb-2 break-all font-medium"
-                    >
-                      {contact.value}
-                    </a>
-                  ) : (
-                    <div className="text-base text-gray-300 mb-2 font-medium">{contact.value}</div>
-                  )}
-                  
-                  <p className="text-sm text-gray-500">{contact.subtitle}</p>
-                </div>
+                  <div>
+                    <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold mb-0.5">Email</p>
+                    <p className="text-white font-semibold text-sm md:text-base group-hover:text-primary transition-colors duration-300">preranadipak17@gmail.com</p>
+                  </div>
+                </a>
 
-                {/* Bottom accent */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              </div>
-              </div>
-            ))}
-
-            {/* Dot Indicators - Mobile Only */}
-            <div className="flex justify-center items-center gap-2 mt-8">
-              {[0, 1, 2].map((index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    if (isContactTransitioning) return;
-                    setIsContactTransitioning(true);
-                    setContactSlideDirection(index > currentContactIndex ? 'right' : 'left');
-                    setTimeout(() => {
-                      setCurrentContactIndex(index);
-                      setIsContactTransitioning(false);
-                    }, 100);
-                  }}
-                  disabled={isContactTransitioning}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${
-                    index === currentContactIndex 
-                      ? 'w-12 bg-gradient-to-r from-primary to-accent' 
-                      : 'w-2.5 bg-white/30 hover:bg-white/50'
-                  }`}
-                  aria-label={`Go to contact ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Contact Grid - Desktop */}
-          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
-            {[
-              { 
-                icon: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22,6 12,13 2,6', 
-                title: 'Email', 
-                value: 'preranadipak17@gmail.com', 
-                href: 'mailto:preranadipak17@gmail.com', 
-                subtitle: "I'll respond within 24 hours",
-                gradient: 'from-blue-500/10 to-cyan-500/10',
-                iconColor: 'text-blue-400'
-              },
-              { 
-                icon: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z', 
-                title: 'Phone', 
-                value: '+91 7979959056', 
-                href: 'tel:7979959056', 
-                subtitle: 'Mon-Fri, 9AM-6PM IST',
-                gradient: 'from-purple-500/10 to-pink-500/10',
-                iconColor: 'text-purple-400'
-              },
-              { 
-                icon: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z', 
-                title: 'Location', 
-                value: 'Pune, India', 
-                href: null, 
-                subtitle: 'Open for opportunities',
-                gradient: 'from-amber-500/10 to-orange-500/10',
-                iconColor: 'text-amber-400'
-              }
-            ].map((contact, i) => (
-              <div 
-                key={i} 
-                className={`group relative p-8 rounded-3xl bg-gradient-to-br ${contact.gradient} backdrop-blur-sm border border-white/10 hover:border-white/30 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 text-center animate-fade-in-up overflow-hidden`}
-                style={{animationDelay: `${i * 0.1}s`}}
-              >
-                {/* Glowing orb on hover */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
-                <div className="relative z-10">
-                  {/* Icon */}
-                  <div className={`inline-flex p-5 rounded-2xl bg-white/5 border border-white/10 mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 ${contact.iconColor}`}>
-                    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d={contact.icon}/>
+                {/* Phone */}
+                <a href="tel:7979959056" className="flex items-center gap-4 group">
+                  <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-primary/15 border border-primary/25 flex items-center justify-center group-hover:bg-primary/25 transition-colors duration-300">
+                    <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.13 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.08 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/>
                     </svg>
                   </div>
-                  
-                  <h4 className="text-xl font-bold mb-3 text-white">{contact.title}</h4>
-                  
-                  {contact.href ? (
-                    <a 
-                      href={contact.href} 
-                      className="block text-base text-gray-300 hover:text-white transition-colors mb-2 break-all font-medium"
-                    >
-                      {contact.value}
-                    </a>
-                  ) : (
-                    <div className="text-base text-gray-300 mb-2 font-medium">{contact.value}</div>
-                  )}
-                  
-                  <p className="text-sm text-gray-500">{contact.subtitle}</p>
+                  <div>
+                    <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold mb-0.5">Phone</p>
+                    <p className="text-white font-semibold text-sm md:text-base group-hover:text-primary transition-colors duration-300">+91 7979959056</p>
+                  </div>
+                </a>
+
+                {/* Location */}
+                <div className="flex items-center gap-4">
+                  <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-primary/15 border border-primary/25 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                      <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold mb-0.5">Location</p>
+                    <p className="text-white font-semibold text-sm md:text-base">Pune</p>
+                  </div>
                 </div>
-
-                {/* Bottom accent */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
-            ))}
-          </div>
 
-          {/* CTA Button */}
-          <div className="text-center">
-            <div className="inline-block relative group">
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl blur-xl opacity-50 group-hover:opacity-100 animate-pulse"></div>
-              
-              <a 
-                href="mailto:preranadipak17@gmail.com" 
-                className="relative inline-flex items-center gap-3 sm:gap-4 px-8 sm:px-10 md:px-12 py-4 sm:py-5 md:py-6 bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl font-bold text-base sm:text-lg md:text-xl text-white shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-500 group overflow-hidden"
-              >
-                {/* Shimmer effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                
-                <span className="relative z-10">Start a Project</span>
-                <svg className="relative z-10 w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                </svg>
-              </a>
-            </div>
-
-            {/* Social links */}
-            <div className="flex justify-center gap-4 mt-8">
-              {[
-                { href: 'https://www.linkedin.com/in/prerana-dipak-031947247', icon: 'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z M2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z', label: 'LinkedIn' },
-                { href: 'https://github.com/prerana-dipak', icon: 'M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22', label: 'GitHub' },
-                { href: 'https://www.instagram.com/bright_illusion18', icon: 'M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z M17.5 6.5h.01 M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2z', label: 'Instagram' }
-              ].map((social, i) => (
-                <a 
-                  key={i}
-                  href={social.href} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  aria-label={social.label}
-                  className="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-gradient-to-br hover:from-primary/20 hover:to-accent/20 hover:border-primary/50 hover:scale-125 hover:rotate-12 transition-all duration-300"
-                >
-                  <svg className="w-6 h-6 text-gray-400 hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d={social.icon}/>
+              {/* Social Icons */}
+              <div className="flex gap-3 mb-8">
+                <a href="https://github.com/prerana-dipak" target="_blank" rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary/20 hover:border-primary/40 hover:scale-110 transition-all duration-300">
+                  <svg className="w-5 h-5 text-gray-400 hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
                   </svg>
                 </a>
-              ))}
+                <a href="https://www.linkedin.com/in/prerana-dipak-031947247" target="_blank" rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary/20 hover:border-primary/40 hover:scale-110 transition-all duration-300">
+                  <svg className="w-5 h-5 text-gray-400 hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                    <rect x="2" y="9" width="4" height="12"/>
+                    <circle cx="4" cy="4" r="2"/>
+                  </svg>
+                </a>
+                <a href="https://www.instagram.com/bright_illusion18" target="_blank" rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary/20 hover:border-primary/40 hover:scale-110 transition-all duration-300">
+                  <svg className="w-5 h-5 text-gray-400 hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z M17.5 6.5h.01 M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2z"/>
+                  </svg>
+                </a>
+              </div>
+
+              {/* Availability Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-primary/30 bg-primary/5">
+                <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+                <span className="text-primary text-sm font-semibold">Available for freelance &amp; full-time roles</span>
+              </div>
+            </div>
+
+            {/* Right - Contact Form */}
+            <div className="relative rounded-3xl p-8 md:p-10 border border-white/10"
+              style={{ background: 'linear-gradient(135deg, rgba(15,2,30,0.95) 0%, rgba(8,0,18,0.98) 100%)' }}>
+              <div className="absolute top-0 left-0 w-full h-1 rounded-t-3xl bg-gradient-to-r from-secondary via-accent to-primary opacity-80"></div>
+
+              <form ref={contactFormRef}
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  if (contactStatus === 'sending') return;
+                  setContactStatus('sending');
+                  try {
+                    await emailjs.send(
+                      'service_9er3d9r',
+                      'template_dwdskcb',
+                      {
+                        title: contactForm.title,
+                        name: contactForm.name,
+                        message: contactForm.message,
+                        email: contactForm.email,
+                      },
+                      'nphv5udOTN3CVO2RL'
+                    );
+                    setContactStatus('sent');
+                    setContactForm({ name: '', email: '', title: '', message: '' });
+                    setTimeout(() => setContactStatus('idle'), 5000);
+                  } catch {
+                    setContactStatus('error');
+                    setTimeout(() => setContactStatus('idle'), 5000);
+                  }
+                }}
+                className="space-y-5"
+              >
+                {/* Name + Email row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-300 mb-2">Your Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="John Doe"
+                      required
+                      value={contactForm.name}
+                      onChange={(e) => setContactForm(p => ({ ...p, name: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-600 text-sm focus:outline-none focus:border-primary/50 focus:bg-white/8 transition-all duration-300"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-300 mb-2">Email Address</label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="john@company.com"
+                      required
+                      value={contactForm.email}
+                      onChange={(e) => setContactForm(p => ({ ...p, email: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-600 text-sm focus:outline-none focus:border-primary/50 focus:bg-white/8 transition-all duration-300"
+                    />
+                  </div>
+                </div>
+
+                {/* Subject */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-300 mb-2">Subject</label>
+                  <input
+                    type="text"
+                    name="title"
+                    placeholder="Project Inquiry / Collaboration"
+                    required
+                    value={contactForm.title}
+                    onChange={(e) => setContactForm(p => ({ ...p, title: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-600 text-sm focus:outline-none focus:border-primary/50 focus:bg-white/8 transition-all duration-300"
+                  />
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-300 mb-2">Message</label>
+                  <textarea
+                    name="message"
+                    placeholder="Tell me about your project, data needs, or how I can help..."
+                    required
+                    rows={6}
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm(p => ({ ...p, message: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-600 text-sm focus:outline-none focus:border-primary/50 focus:bg-white/8 transition-all duration-300 resize-none"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <div>
+                  <button
+                    type="submit"
+                    disabled={contactStatus === 'sending'}
+                    className="relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-base text-white overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg"
+                    style={{ background: 'linear-gradient(90deg, #22c55e 0%, #ec4899 100%)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-700"></div>
+                    {contactStatus === 'sending' ? (
+                      <>
+                        <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                        </svg>
+                        <span className="relative z-10">Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-5 h-5 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="22" y1="2" x2="11" y2="13"/>
+                          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                        </svg>
+                        <span className="relative z-10">Send Message</span>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Status handled by toast notification */}
+                </div>
+              </form>
             </div>
           </div>
         </div>
